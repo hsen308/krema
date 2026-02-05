@@ -114,17 +114,29 @@
             width: 80px;
             height: 80px;
             position: relative;
+         display: flex;
+         justify-content: center;
+         align-items: center;
+         height: 100vh;
+
+
         }
         
-       .coffee-cup-loader::before {
+    .coffee-cup-loader::before {
     content: 'krema';
     font-family: 'Montserrat', sans-serif;
-    font-size: clamp(28px, 10vw, 60px);
+    font-size: clamp(60px, 18vw, 140px); /* bigger but responsive */
     font-weight: 800;
-    letter-spacing: -1px;
+    letter-spacing: -2px;
+
     position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
     animation: float 2s ease-in-out infinite;
 }
+
 
         @keyframes float {
             0%, 100% { transform: translateY(0px); }

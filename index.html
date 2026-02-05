@@ -10,6 +10,7 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&family=Outfit:wght@300;400;500;600;700&family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
@@ -115,13 +116,16 @@
             position: relative;
         }
         
-        .coffee-cup-loader::before {
-            content: '';
-            font-size: 60px;
-            position: absolute;
-            animation: float 2s ease-in-out infinite;
-        }
-        
+       .coffee-cup-loader::before {
+    content: 'krema';
+    font-family: 'Montserrat', sans-serif;
+    font-size: clamp(28px, 10vw, 60px);
+    font-weight: 800;
+    letter-spacing: -1px;
+    position: absolute;
+    animation: float 2s ease-in-out infinite;
+}
+
         @keyframes float {
             0%, 100% { transform: translateY(0px); }
             50% { transform: translateY(-20px); }
@@ -168,17 +172,6 @@
             position: relative;
             transition: var(--transition-fast);
         }
-           .logo1 {
-    font-family: var(--font-display);
-    font-size: clamp(18px, 5vw, 32px);
-    font-weight: 700;
-    color: var(--primary-dark);
-    text-decoration: none;
-    letter-spacing: 1px;
-    position: relative;
-    transition: var(--transition-fast);
-}
-
         
         .logo::after {
             content: '';
@@ -1531,7 +1524,6 @@
          LOADING SCREEN
     ======================================== -->
     <div class="loading-screen" id="loadingScreen">
-          <img src="kremalogo.png" class="logo1">
         <div class="coffee-cup-loader"></div>
     </div>
 
@@ -2414,5 +2406,3 @@
     </script>
 </body>
 </html>
-
-

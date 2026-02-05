@@ -168,12 +168,17 @@
             position: relative;
             transition: var(--transition-fast);
         }
-        .logo {
-  width: 25vw;
-  max-width: 200px;
-  min-width: 90px;
-  height: auto;
+           .logo1 {
+    font-family: var(--font-display);
+    font-size: clamp(18px, 5vw, 32px);
+    font-weight: 700;
+    color: var(--primary-dark);
+    text-decoration: none;
+    letter-spacing: 1px;
+    position: relative;
+    transition: var(--transition-fast);
 }
+
         
         .logo::after {
             content: '';
@@ -1526,7 +1531,7 @@
          LOADING SCREEN
     ======================================== -->
     <div class="loading-screen" id="loadingScreen">
-          <img src="kremalogo.jpg" class="logo">
+          <img src="kremalogo.png" class="logo1">
         <div class="coffee-cup-loader"></div>
     </div>
 
@@ -2409,4 +2414,5 @@
     </script>
 </body>
 </html>
+
 

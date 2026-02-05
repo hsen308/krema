@@ -89,7 +89,7 @@
         }
         
         /* ========================================
-           LOADING SCREEN - IMPROVED
+           LOADING SCREEN - ELEGANT "krema." DESIGN
         ======================================== */
         .loading-screen {
             position: fixed;
@@ -97,12 +97,12 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(135deg, var(--cream) 0%, var(--cream-dark) 100%);
+            background: linear-gradient(135deg, var(--espresso) 0%, var(--primary-dark) 100%);
             display: flex;
             align-items: center;
             justify-content: center;
             z-index: 10000;
-            transition: opacity 0.6s ease, visibility 0.6s ease;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
         }
         
         .loading-screen.hidden {
@@ -111,38 +111,61 @@
             pointer-events: none;
         }
         
-        .coffee-cup-loader {
+        .loading-logo {
             position: relative;
             text-align: center;
         }
         
-        .coffee-cup-loader::before {
-            content: '☕';
-            font-size: clamp(60px, 15vw, 100px);
-            display: block;
-            animation: float 2s ease-in-out infinite;
-            margin-bottom: 20px;
-        }
-        
-        .coffee-cup-loader::after {
-            content: 'krema';
+        .loading-logo-text {
             font-family: var(--font-display);
-            font-size: clamp(40px, 10vw, 70px);
+            font-size: clamp(50px, 12vw, 90px);
             font-weight: 800;
-            letter-spacing: 3px;
-            color: var(--primary-dark);
-            display: block;
-            animation: fadeInOut 2s ease-in-out infinite;
+            color: var(--cream);
+            letter-spacing: 8px;
+            position: relative;
+            display: inline-block;
+            animation: fadeInScale 1.2s ease-in-out infinite;
         }
         
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-15px); }
+        .loading-logo-dot {
+            color: var(--gold);
+            font-size: clamp(60px, 14vw, 110px);
+            position: absolute;
+            bottom: -10px;
+            animation: pulse 1.5s ease-in-out infinite;
         }
         
-        @keyframes fadeInOut {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
+        .loading-subtitle {
+            font-family: var(--font-body);
+            font-size: clamp(12px, 2vw, 16px);
+            color: var(--secondary);
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            margin-top: 20px;
+            font-weight: 300;
+            opacity: 0.8;
+        }
+        
+        @keyframes fadeInScale {
+            0%, 100% { 
+                opacity: 1;
+                transform: scale(1);
+            }
+            50% { 
+                opacity: 0.7;
+                transform: scale(0.98);
+            }
+        }
+        
+        @keyframes pulse {
+            0%, 100% { 
+                opacity: 1;
+                transform: scale(1);
+            }
+            50% { 
+                opacity: 0.6;
+                transform: scale(1.2);
+            }
         }
         
         /* ========================================
@@ -176,6 +199,7 @@
             align-items: center;
         }
         
+        /* LOGO - Add your logo image here */
         .logo {
             font-family: var(--font-display);
             font-size: clamp(24px, 5vw, 36px);
@@ -187,6 +211,27 @@
             transition: var(--transition-fast);
             z-index: 1001;
         }
+        
+        /* 
+        TO ADD LOGO IMAGE: Replace the .logo style above with this:
+        .logo {
+            display: block;
+            height: 50px;
+            transition: var(--transition-fast);
+            z-index: 1001;
+        }
+        
+        .logo img {
+            height: 100%;
+            width: auto;
+            object-fit: contain;
+        }
+        
+        Then replace <a href="#" class="logo">Krema</a> with:
+        <a href="#" class="logo">
+            <img src="images/logo.png" alt="Krema Logo">
+        </a>
+        */
         
         .logo:hover {
             color: var(--gold);
@@ -521,7 +566,7 @@
         }
         
         /* ========================================
-           ABOUT SECTION - ENHANCED
+           ABOUT SECTION - ENHANCED WITH IMAGE SUPPORT
         ======================================== */
         .about {
             padding: var(--section-padding) 0;
@@ -558,6 +603,48 @@
             line-height: 1.8;
             margin-bottom: 20px;
         }
+        
+        /* ABOUT IMAGE - Flexible container for photos */
+        .about-image {
+            width: 100%;
+            height: 400px;
+            border-radius: 25px;
+            overflow: hidden;
+            box-shadow: 0 15px 60px var(--shadow-lg);
+            position: relative;
+        }
+        
+        .about-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Ensures image covers container while maintaining aspect ratio */
+            object-position: center; /* Centers the image */
+            transition: var(--transition-smooth);
+        }
+        
+        .about-image:hover img {
+            transform: scale(1.05);
+        }
+        
+        /* Placeholder for when no image is added */
+        .about-image-placeholder {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--cream-dark) 0%, var(--secondary) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 80px;
+        }
+        
+        /* 
+        TO ADD ABOUT IMAGE:
+        Replace the div with class "about-image-placeholder" with:
+        <img src="images/about-cafe.jpg" alt="Krema Cafe Interior">
+        
+        Recommended image: Interior shot of your cafe, coffee being made, or team photo
+        Dimensions: Minimum 800x600px for best quality
+        */
         
         .features-grid {
             display: grid;
@@ -602,7 +689,7 @@
         }
         
         /* ========================================
-           MENU SECTION - COMPLETELY REDESIGNED
+           MENU SECTION - WITH IMAGE SUPPORT
         ======================================== */
         .menu {
             padding: var(--section-padding) 0;
@@ -700,17 +787,37 @@
             box-shadow: 0 15px 50px var(--shadow-lg);
         }
         
+        /* MENU ITEM IMAGE - Flexible for different photos */
         .menu-item-image {
             height: 220px;
+            position: relative;
+            overflow: hidden;
             background: linear-gradient(135deg, var(--cream-dark) 0%, var(--secondary) 100%);
+        }
+        
+        .menu-item-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Ensures image fills space proportionally */
+            object-position: center;
+            transition: var(--transition-smooth);
+        }
+        
+        .menu-item:hover .menu-item-image img {
+            transform: scale(1.1);
+        }
+        
+        /* Placeholder when no image */
+        .menu-item-image-placeholder {
+            width: 100%;
+            height: 100%;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 80px;
-            position: relative;
-            overflow: hidden;
         }
         
+        /* Shimmer effect overlay */
         .menu-item-image::after {
             content: '';
             position: absolute;
@@ -731,6 +838,16 @@
             0% { transform: translateX(-100%) rotate(45deg); }
             100% { transform: translateX(100%) rotate(45deg); }
         }
+        
+        /* 
+        TO ADD MENU ITEM IMAGES:
+        Replace <div class="menu-item-image-placeholder">☕</div> with:
+        <img src="images/menu/espresso.jpg" alt="Espresso">
+        
+        Recommended: High-quality food photography
+        Dimensions: Minimum 600x400px
+        Aspect Ratio: 3:2 works best
+        */
         
         .menu-item-content {
             padding: 25px;
@@ -780,7 +897,7 @@
         }
         
         /* ========================================
-           GALLERY SECTION - MODERN DESIGN
+           GALLERY SECTION - FLEXIBLE IMAGE GRID
         ======================================== */
         .gallery {
             padding: var(--section-padding) 0;
@@ -825,21 +942,46 @@
             gap: 20px;
         }
         
+        /* GALLERY ITEM - Flexible for any image */
         .gallery-item {
             height: 300px;
             border-radius: 20px;
             overflow: hidden;
             position: relative;
             cursor: pointer;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
             transition: var(--transition-smooth);
         }
         
         .gallery-item:hover {
             transform: scale(1.05);
             box-shadow: 0 15px 50px rgba(212, 175, 55, 0.4);
+            z-index: 10;
         }
         
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Image fills container proportionally */
+            object-position: center;
+            transition: var(--transition-smooth);
+        }
+        
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+        
+        /* Placeholder when no image */
+        .gallery-item-placeholder {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 100px;
+        }
+        
+        /* Dark overlay on hover */
         .gallery-item::before {
             content: '';
             position: absolute;
@@ -855,15 +997,6 @@
         
         .gallery-item:hover::before {
             opacity: 1;
-        }
-        
-        .gallery-item-content {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 100px;
         }
         
         .gallery-overlay {
@@ -895,6 +1028,16 @@
             letter-spacing: 1px;
             font-weight: 600;
         }
+        
+        /* 
+        TO ADD GALLERY IMAGES:
+        Replace <div class="gallery-item-placeholder">☕</div> with:
+        <img src="images/gallery/photo-1.jpg" alt="Coffee Art">
+        
+        Recommended: Square or landscape photos
+        Dimensions: Minimum 600x600px
+        Mix of coffee, food, interior, and atmosphere shots
+        */
         
         /* ========================================
            TESTIMONIALS - ENHANCED DESIGN
@@ -959,18 +1102,42 @@
             margin-bottom: 15px;
         }
         
+        /* TESTIMONIAL AVATAR - Can use real photos */
         .author-avatar {
             width: 60px;
             height: 60px;
             border-radius: 50%;
+            overflow: hidden;
+            border: 3px solid var(--white);
+            box-shadow: 0 5px 20px var(--shadow);
+            flex-shrink: 0;
+        }
+        
+        .author-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        /* Placeholder for avatar */
+        .author-avatar-placeholder {
+            width: 100%;
+            height: 100%;
             background: linear-gradient(135deg, var(--primary) 0%, var(--gold) 100%);
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 28px;
-            border: 3px solid var(--white);
-            box-shadow: 0 5px 20px var(--shadow);
         }
+        
+        /* 
+        TO ADD TESTIMONIAL PHOTOS:
+        Replace <div class="author-avatar-placeholder">👩</div> with:
+        <img src="images/testimonials/customer-1.jpg" alt="Sarah Johnson">
+        
+        Recommended: Headshot photos
+        Dimensions: 200x200px (square)
+        */
         
         .author-info h4 {
             font-size: 18px;
@@ -1087,19 +1254,33 @@
             line-height: 1.6;
         }
         
+        /* LOCATION MAP - Can embed Google Maps or use image */
         .location-map {
             height: 450px;
             background: var(--white);
             border-radius: 25px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
             position: relative;
             overflow: hidden;
             box-shadow: 0 10px 50px var(--shadow);
         }
         
-        .location-map::before {
+        .location-map iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        /* Map placeholder */
+        .location-map-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--cream-dark) 0%, var(--secondary) 100%);
+        }
+        
+        .location-map-placeholder::before {
             content: '📍';
             font-size: 80px;
             animation: mapPulse 2s ease-in-out infinite;
@@ -1110,7 +1291,7 @@
             50% { transform: scale(1.2); opacity: 0.6; }
         }
         
-        .map-placeholder {
+        .map-label {
             position: absolute;
             bottom: 30px;
             left: 50%;
@@ -1123,6 +1304,23 @@
             font-weight: 600;
             letter-spacing: 1px;
         }
+        
+        /* 
+        TO ADD GOOGLE MAPS:
+        1. Go to Google Maps, search your location
+        2. Click "Share" → "Embed a map"
+        3. Copy the iframe code
+        4. Replace the .location-map-placeholder div with:
+        
+        <iframe 
+            src="YOUR_GOOGLE_MAPS_EMBED_URL" 
+            allowfullscreen="" 
+            loading="lazy">
+        </iframe>
+        
+        OR use a map image:
+        <img src="images/map-location.jpg" alt="Location Map">
+        */
         
         /* ========================================
            CONTACT SECTION - BEAUTIFUL FORM
@@ -1419,6 +1617,10 @@
                 grid-template-columns: 1fr;
                 gap: 30px;
             }
+            
+            .about-image {
+                height: 300px;
+            }
         }
         
         @media (max-width: 480px) {
@@ -1470,14 +1672,26 @@
     </style>
 </head>
 <body>
-    <!-- Loading Screen -->
+    <!-- ====================================
+         LOADING SCREEN
+         Elegant "krema." branding
+    ==================================== -->
     <div class="loading-screen" id="loadingScreen">
-        <div class="coffee-cup-loader"></div>
+        <div class="loading-logo">
+            <span class="loading-logo-text">
+                krema<span class="loading-logo-dot">.</span>
+            </span>
+            <div class="loading-subtitle">Premium Coffee</div>
+        </div>
     </div>
     
-    <!-- Navigation -->
+    <!-- ====================================
+         NAVIGATION
+         📸 Logo Image Location: See CSS comments above
+    ==================================== -->
     <nav class="navbar" id="navbar">
         <div class="nav-container">
+            <!-- TO ADD LOGO IMAGE: See CSS comments in .logo section -->
             <a href="#" class="logo">Krema</a>
             
             <ul class="nav-menu" id="navMenu">
@@ -1497,7 +1711,9 @@
         </div>
     </nav>
     
-    <!-- Hero Section -->
+    <!-- ====================================
+         HERO SECTION
+    ==================================== -->
     <section class="hero" id="home">
         <div class="hero-container">
             <div class="hero-content">
@@ -1522,7 +1738,9 @@
         </div>
     </section>
     
-    <!-- Stats Section -->
+    <!-- ====================================
+         STATS SECTION
+    ==================================== -->
     <section class="stats">
         <div class="stats-container">
             <div class="stat-item reveal">
@@ -1544,7 +1762,10 @@
         </div>
     </section>
     
-    <!-- About Section -->
+    <!-- ====================================
+         ABOUT SECTION
+         📸 Image Location: Replace .about-image-placeholder
+    ==================================== -->
     <section class="about" id="about">
         <div class="about-container">
             <div class="about-content reveal">
@@ -1561,6 +1782,21 @@
                 </p>
             </div>
             
+            <!-- 📸 ADD YOUR ABOUT IMAGE HERE 
+                 Replace the placeholder div with:
+                 <div class="about-image reveal">
+                     <img src="images/about-cafe.jpg" alt="Krema Cafe Interior">
+                 </div>
+                 
+                 Recommended: Interior shot, coffee being made, or team photo
+                 Dimensions: Min 800x600px
+            -->
+            <div class="about-image reveal">
+               <img src="krema66.jpeg" alt="Krema Cafe Interior">
+            </div>
+        </div>
+        
+        <div class="about-container">
             <div class="features-grid">
                 <div class="feature-item reveal">
                     <span class="feature-icon">☕</span>
@@ -1586,7 +1822,10 @@
         </div>
     </section>
     
-    <!-- Menu Section -->
+    <!-- ====================================
+         MENU SECTION
+         📸 Image Location: Replace .menu-item-image-placeholder in each item
+    ==================================== -->
     <section class="menu" id="menu">
         <div class="menu-container">
             <div class="section-header">
@@ -1607,8 +1846,12 @@
             
             <div class="menu-grid">
                 <!-- Coffee Items -->
+                <!-- 📸 Replace placeholder with: <img src="images/menu/espresso.jpg" alt="Espresso"> -->
                 <div class="menu-item reveal" data-category="coffee">
-                    <div class="menu-item-image">☕</div>
+                    <div class="menu-item-image">
+                        <div class="menu-item-image-placeholder">☕</div>
+                        <!-- <img src="images/menu/espresso.jpg" alt="Espresso"> -->
+                    </div>
                     <div class="menu-item-content">
                         <div class="menu-item-header">
                             <h3 class="menu-item-title">Espresso</h3>
@@ -1621,8 +1864,11 @@
                     </div>
                 </div>
                 
+                <!-- 📸 ADD IMAGE: images/menu/cappuccino.jpg -->
                 <div class="menu-item reveal" data-category="coffee">
-                    <div class="menu-item-image">🥤</div>
+                    <div class="menu-item-image">
+                        <div class="menu-item-image-placeholder">🥤</div>
+                    </div>
                     <div class="menu-item-content">
                         <div class="menu-item-header">
                             <h3 class="menu-item-title">Cappuccino</h3>
@@ -1634,8 +1880,11 @@
                     </div>
                 </div>
                 
+                <!-- 📸 ADD IMAGE: images/menu/latte.jpg -->
                 <div class="menu-item reveal" data-category="coffee">
-                    <div class="menu-item-image">🍵</div>
+                    <div class="menu-item-image">
+                        <div class="menu-item-image-placeholder">🍵</div>
+                    </div>
                     <div class="menu-item-content">
                         <div class="menu-item-header">
                             <h3 class="menu-item-title">Latte</h3>
@@ -1649,8 +1898,11 @@
                 </div>
                 
                 <!-- Bagels -->
+                <!-- 📸 ADD IMAGE: images/menu/classic-bagel.jpg -->
                 <div class="menu-item reveal" data-category="bagels">
-                    <div class="menu-item-image">🥯</div>
+                    <div class="menu-item-image">
+                        <div class="menu-item-image-placeholder">🥯</div>
+                    </div>
                     <div class="menu-item-content">
                         <div class="menu-item-header">
                             <h3 class="menu-item-title">Classic Bagel</h3>
@@ -1662,8 +1914,11 @@
                     </div>
                 </div>
                 
+                <!-- 📸 ADD IMAGE: images/menu/everything-bagel.jpg -->
                 <div class="menu-item reveal" data-category="bagels">
-                    <div class="menu-item-image">🧀</div>
+                    <div class="menu-item-image">
+                        <div class="menu-item-image-placeholder">🧀</div>
+                    </div>
                     <div class="menu-item-content">
                         <div class="menu-item-header">
                             <h3 class="menu-item-title">Everything Bagel</h3>
@@ -1677,8 +1932,11 @@
                 </div>
                 
                 <!-- Sandwiches -->
+                <!-- 📸 ADD IMAGE: images/menu/turkey-club.jpg -->
                 <div class="menu-item reveal" data-category="sandwiches">
-                    <div class="menu-item-image">🥪</div>
+                    <div class="menu-item-image">
+                        <div class="menu-item-image-placeholder">🥪</div>
+                    </div>
                     <div class="menu-item-content">
                         <div class="menu-item-header">
                             <h3 class="menu-item-title">Turkey Club</h3>
@@ -1690,8 +1948,11 @@
                     </div>
                 </div>
                 
+                <!-- 📸 ADD IMAGE: images/menu/veggie-wrap.jpg -->
                 <div class="menu-item reveal" data-category="sandwiches">
-                    <div class="menu-item-image">🌯</div>
+                    <div class="menu-item-image">
+                        <div class="menu-item-image-placeholder">🌯</div>
+                    </div>
                     <div class="menu-item-content">
                         <div class="menu-item-header">
                             <h3 class="menu-item-title">Veggie Wrap</h3>
@@ -1704,8 +1965,11 @@
                 </div>
                 
                 <!-- Desserts -->
+                <!-- 📸 ADD IMAGE: images/menu/cheesecake.jpg -->
                 <div class="menu-item reveal" data-category="desserts">
-                    <div class="menu-item-image">🍰</div>
+                    <div class="menu-item-image">
+                        <div class="menu-item-image-placeholder">🍰</div>
+                    </div>
                     <div class="menu-item-content">
                         <div class="menu-item-header">
                             <h3 class="menu-item-title">Cheesecake</h3>
@@ -1718,8 +1982,11 @@
                     </div>
                 </div>
                 
+                <!-- 📸 ADD IMAGE: images/menu/croissant.jpg -->
                 <div class="menu-item reveal" data-category="desserts">
-                    <div class="menu-item-image">🧁</div>
+                    <div class="menu-item-image">
+                        <div class="menu-item-image-placeholder">🧁</div>
+                    </div>
                     <div class="menu-item-content">
                         <div class="menu-item-header">
                             <h3 class="menu-item-title">Croissant</h3>
@@ -1734,7 +2001,11 @@
         </div>
     </section>
     
-    <!-- Gallery Section -->
+    <!-- ====================================
+         GALLERY SECTION
+         📸 Image Locations: Replace each .gallery-item-placeholder
+         Recommended: 6-12 images of coffee, food, interior, atmosphere
+    ==================================== -->
     <section class="gallery" id="gallery">
         <div class="gallery-container">
             <div class="section-header">
@@ -1746,53 +2017,71 @@
             </div>
             
             <div class="gallery-grid">
+                <!-- 📸 Gallery Image 1: Coffee/Espresso shot -->
                 <div class="gallery-item reveal">
-                    <div class="gallery-item-content">☕</div>
+                    <div class="gallery-item-placeholder">☕</div>
+                    <!-- <img src="images/gallery/coffee-1.jpg" alt="Fresh Brew"> -->
                     <div class="gallery-overlay">
                         <h3 class="gallery-title">Fresh Brew</h3>
                         <p class="gallery-category">Coffee</p>
                     </div>
                 </div>
+                
+                <!-- 📸 Gallery Image 2: Pastries/Croissants -->
                 <div class="gallery-item reveal">
-                    <div class="gallery-item-content">🥐</div>
+                    <img src="krema3.jpeg" alt="Morning Pastries">
                     <div class="gallery-overlay">
                         <h3 class="gallery-title">Morning Pastries</h3>
                         <p class="gallery-category">Baked Goods</p>
                     </div>
                 </div>
+                
+                <!-- 📸 Gallery Image 3: Desserts/Cakes -->
                 <div class="gallery-item reveal">
-                    <div class="gallery-item-content">🍰</div>
+                   
+                    <img src="krema4.jpeg" alt="Sweet Treats"> 
                     <div class="gallery-overlay">
                         <h3 class="gallery-title">Sweet Treats</h3>
                         <p class="gallery-category">Desserts</p>
                     </div>
                 </div>
+                
+                <!-- 📸 Gallery Image 4: Bagels -->
                 <div class="gallery-item reveal">
-                    <div class="gallery-item-content">🥯</div>
+                     <img src="krema1.jpeg" alt="Fresh Bagels"> 
                     <div class="gallery-overlay">
                         <h3 class="gallery-title">Fresh Bagels</h3>
                         <p class="gallery-category">Breakfast</p>
                     </div>
                 </div>
+                
+                <!-- 📸 Gallery Image 5: Iced drinks -->
                 <div class="gallery-item reveal">
-                    <div class="gallery-item-content">🥤</div>
+                    <div class="gallery-item-placeholder">🥤</div>
+                    <!-- <img src="images/gallery/iced-drinks.jpg" alt="Iced Drinks"> -->
                     <div class="gallery-overlay">
                         <h3 class="gallery-title">Iced Drinks</h3>
                         <p class="gallery-category">Beverages</p>
                     </div>
                 </div>
+                
+                <!-- 📸 Gallery Image 6: Cafe interior/atmosphere -->
                 <div class="gallery-item reveal">
-                    <div class="gallery-item-content">🧁</div>
+                    <div class="gallery-item-placeholder">🧁</div>
+                    <!-- <img src="images/gallery/interior.jpg" alt="Cozy Interior"> -->
                     <div class="gallery-overlay">
-                        <h3 class="gallery-title">Specialty Items</h3>
-                        <p class="gallery-category">Pastries</p>
+                        <h3 class="gallery-title">Cozy Space</h3>
+                        <p class="gallery-category">Atmosphere</p>
                     </div>
                 </div>
             </div>
         </div>
     </section>
     
-    <!-- Testimonials Section -->
+    <!-- ====================================
+         TESTIMONIALS SECTION
+         📸 Avatar Images: Replace .author-avatar-placeholder
+    ==================================== -->
     <section class="testimonials" id="testimonials">
         <div class="testimonials-container">
             <div class="section-header">
@@ -1804,6 +2093,7 @@
             </div>
             
             <div class="testimonials-slider">
+                <!-- Testimonial 1 -->
                 <div class="testimonial-card active">
                     <div class="quote-icon">"</div>
                     <p class="testimonial-text">
@@ -1812,7 +2102,11 @@
                         and unwind."
                     </p>
                     <div class="testimonial-author">
-                        <div class="author-avatar">👩</div>
+                        <!-- 📸 ADD CUSTOMER PHOTO: images/testimonials/customer-1.jpg -->
+                        <div class="author-avatar">
+                            <div class="author-avatar-placeholder">👩</div>
+                            <!-- <img src="images/testimonials/customer-1.jpg" alt="Sarah Johnson"> -->
+                        </div>
                         <div class="author-info">
                             <h4>Sarah Johnson</h4>
                             <p>Regular Customer</p>
@@ -1821,6 +2115,7 @@
                     <div class="testimonial-rating">★★★★★</div>
                 </div>
                 
+                <!-- Testimonial 2 -->
                 <div class="testimonial-card">
                     <div class="quote-icon">"</div>
                     <p class="testimonial-text">
@@ -1828,7 +2123,10 @@
                         my cappuccino, and their bagels are always fresh. Couldn't ask for more!"
                     </p>
                     <div class="testimonial-author">
-                        <div class="author-avatar">👨</div>
+                        <!-- 📸 ADD CUSTOMER PHOTO: images/testimonials/customer-2.jpg -->
+                        <div class="author-avatar">
+                            <div class="author-avatar-placeholder">👨</div>
+                        </div>
                         <div class="author-info">
                             <h4>Michael Chen</h4>
                             <p>Coffee Enthusiast</p>
@@ -1837,6 +2135,7 @@
                     <div class="testimonial-rating">★★★★★</div>
                 </div>
                 
+                <!-- Testimonial 3 -->
                 <div class="testimonial-card">
                     <div class="quote-icon">"</div>
                     <p class="testimonial-text">
@@ -1844,7 +2143,10 @@
                         is outstanding. Plus, the staff is incredibly friendly. Highly recommend!"
                     </p>
                     <div class="testimonial-author">
-                        <div class="author-avatar">👩‍🦰</div>
+                        <!-- 📸 ADD CUSTOMER PHOTO: images/testimonials/customer-3.jpg -->
+                        <div class="author-avatar">
+                            <div class="author-avatar-placeholder">👩‍🦰</div>
+                        </div>
                         <div class="author-info">
                             <h4>Emily Rodriguez</h4>
                             <p>Food Critic</p>
@@ -1862,7 +2164,10 @@
         </div>
     </section>
     
-    <!-- Location Section -->
+    <!-- ====================================
+         LOCATION SECTION
+         📸 Map: Add Google Maps embed or map image
+    ==================================== -->
     <section class="location" id="location">
         <div class="location-container">
             <div class="location-info reveal">
@@ -1895,13 +2200,26 @@
                 </a>
             </div>
             
+            <!-- 📸 ADD GOOGLE MAPS OR MAP IMAGE 
+                 See CSS comments for instructions -->
             <div class="location-map reveal">
-                <span class="map-placeholder">📍 View Map</span>
+                <div class="location-map-placeholder"></div>
+                <span class="map-label">📍 View Map</span>
+                
+                <!-- TO ADD GOOGLE MAPS, replace above with:
+                <iframe 
+                    src="YOUR_GOOGLE_MAPS_EMBED_URL" 
+                    allowfullscreen="" 
+                    loading="lazy">
+                </iframe>
+                -->
             </div>
         </div>
     </section>
     
-    <!-- Contact Section -->
+    <!-- ====================================
+         CONTACT SECTION
+    ==================================== -->
     <section class="contact" id="contact">
         <div class="contact-container">
             <div class="section-header">
@@ -1938,7 +2256,9 @@
         </div>
     </section>
     
-    <!-- Footer -->
+    <!-- ====================================
+         FOOTER
+    ==================================== -->
     <footer class="footer">
         <div class="footer-container">
             <div class="footer-content">
@@ -2246,3 +2566,4 @@
     </script>
 </body>
 </html>
+

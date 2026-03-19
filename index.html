@@ -3,2567 +3,989 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Krema - Premium Cafe & Coffee Experience. Artisan coffee, fresh bagels, and homemade desserts in a cozy atmosphere.">
-    <meta name="keywords" content="cafe, coffee, bagels, sandwiches, desserts, krema, artisan coffee">
-    <title>☕ Krema - Premium Cafe & Coffee Experience</title>
-    
-    <!-- Google Fonts -->
+    <meta name="description" content="krema. — Artisan cafe serving premium coffee, fresh bagels, and homemade pastries.">
+    <title>krema. — Artisan Cafe</title>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&family=Outfit:wght@300;400;500;600;700;800&family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+
     <style>
-        /* ========================================
-           ROOT VARIABLES & RESET
-        ======================================== */
+        /* ─── ROOT ─── */
         :root {
-            /* Enhanced Color Palette */
-            --primary: #8B6F47;
-            --primary-dark: #6B5537;
-            --primary-light: #A0886B;
-            --secondary: #D4A574;
-            --accent: #C9A961;
-            --gold: #D4AF37;
-            --cream: #FFF8F0;
-            --cream-dark: #F5EFE7;
-            --espresso: #2C1810;
-            --white: #FFFFFF;
-            --text-dark: #2C1810;
-            --text-gray: #5C5C5C;
-            --shadow: rgba(44, 24, 16, 0.1);
-            --shadow-md: rgba(44, 24, 16, 0.15);
-            --shadow-lg: rgba(44, 24, 16, 0.2);
-            
-            /* Typography */
-            --font-display: 'Playfair Display', serif;
-            --font-heading: 'Cormorant Garamond', serif;
-            --font-body: 'Outfit', sans-serif;
-            
-            /* Spacing - Mobile First */
-            --section-padding: 60px;
-            --container-width: 1200px;
-            
-            /* Transitions */
-            --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            --transition-fast: all 0.3s ease;
-            --transition-bounce: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            --cream:      #FAF7F2;
+            --cream-mid:  #F2EAE0;
+            --cream-dark: #E5D9CA;
+            --espresso:   #1C0E08;
+            --brown:      #6B4E32;
+            --brown-lt:   #9A7455;
+            --gold:       #B8952A;
+            --white:      #FFFFFF;
+            --text:       #1C0E08;
+            --text-mid:   #4A3728;
+            --text-lt:    #7A6350;
+            --line:       rgba(107,78,50,0.15);
+            --serif: 'Cormorant Garamond', Georgia, serif;
+            --sans:  'DM Sans', system-ui, sans-serif;
+            --ease:  cubic-bezier(0.4,0,0.2,1);
         }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+
+        *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+        html { scroll-behavior:smooth; overflow-x:hidden; }
+        body { font-family:var(--sans); color:var(--text); background:var(--cream); line-height:1.7; overflow-x:hidden; }
+
+        ::-webkit-scrollbar { width:5px; }
+        ::-webkit-scrollbar-track { background:var(--cream-mid); }
+        ::-webkit-scrollbar-thumb { background:var(--brown-lt); border-radius:2px; }
+
+        /* ─── LOADER ─── */
+        .loader {
+            position:fixed; inset:0;
+            background:var(--cream);
+            display:flex; align-items:center; justify-content:center;
+            z-index:9999;
+            transition:opacity .9s var(--ease), visibility .9s var(--ease);
         }
-        
-        html {
-            scroll-behavior: smooth;
-            overflow-x: hidden;
+        .loader.hidden { opacity:0; visibility:hidden; pointer-events:none; }
+
+        .loader-inner { text-align:center; }
+        .loader-logo { width:160px; display:block; margin:0 auto; opacity:0; animation:fadeIn .6s ease .3s forwards; }
+
+        .loader-line {
+            width:0; height:1px; background:var(--gold);
+            margin:12px auto 0;
+            animation:lineGrow .7s var(--ease) .8s forwards;
         }
-        
-        body {
-            font-family: var(--font-body);
-            color: var(--text-dark);
-            background: var(--cream);
-            line-height: 1.7;
-            overflow-x: hidden;
+        .loader-sub {
+            text-align:center;
+            font-family:var(--sans); font-size:10px; letter-spacing:5px; text-transform:uppercase;
+            color:var(--text-lt); margin-top:12px;
+            opacity:0; animation:fadeIn .6s ease 1.3s forwards;
         }
-        
-        /* ========================================
-           CUSTOM SCROLLBAR
-        ======================================== */
-        ::-webkit-scrollbar {
-            width: 8px;
+
+        @keyframes fadeIn   { to { opacity:1; } }
+        @keyframes lineGrow { to { width:64px; } }
+        @keyframes heroUp   { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+
+        /* ─── NAV ─── */
+        .nav {
+            position:fixed; top:0; left:0; width:100%;
+            padding:22px 0; z-index:1000;
+            transition:padding .4s var(--ease), background .4s var(--ease), border-color .4s;
         }
-        
-        ::-webkit-scrollbar-track {
-            background: var(--cream-dark);
+        .nav.scrolled {
+            background:rgba(250,247,242,.97);
+            backdrop-filter:blur(24px); -webkit-backdrop-filter:blur(24px);
+            padding:14px 0;
+            border-bottom:1px solid var(--line);
         }
-        
-        ::-webkit-scrollbar-thumb {
-            background: var(--primary);
-            border-radius: 10px;
+        .nav-inner {
+            max-width:1200px; margin:0 auto; padding:0 48px;
+            display:flex; align-items:center; justify-content:space-between;
         }
-        
-        ::-webkit-scrollbar-thumb:hover {
-            background: var(--primary-dark);
+        .nav-logo img { height:64px; display:block; }
+
+        .nav-links { display:flex; align-items:center; gap:36px; list-style:none; }
+        .nav-links a {
+            font-family:var(--sans); font-size:12px; font-weight:400;
+            letter-spacing:1.8px; text-transform:uppercase;
+            color:var(--text-mid); text-decoration:none;
+            position:relative; transition:color .3s;
         }
-        
-        /* ========================================
-           LOADING SCREEN - ELEGANT "krema." DESIGN
-        ======================================== */
-        .loading-screen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, var(--cream) 0%, var(--cream) 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 10000;
-            transition: opacity 0.8s ease, visibility 0.8s ease;
+        .nav-links a::after {
+            content:''; position:absolute; bottom:-5px; left:0;
+            width:0; height:1px; background:var(--gold);
+            transition:width .3s;
         }
-        
-        .loading-screen.hidden {
-            opacity: 0;
-            visibility: hidden;
-            pointer-events: none;
-        }
-        
-        .loading-logo {
-            position: relative;
-            text-align: center;
-        }
-        
-        .loading-logo-text {
-            font-family: var(--font-display);
-            font-size: clamp(50px, 12vw, 90px);
-            font-weight: 800;
-            color: var(--espresso);
-            letter-spacing: 8px;
-            position: relative;
-            display: inline-block;
-            animation: fadeInScale 1.2s ease-in-out infinite;
-        }
-        
-        .loading-logo-dot {
-            color: var(--gold);
-            font-size: clamp(60px, 14vw, 110px);
-            position: absolute;
-            bottom: -10px;
-            animation: pulse 1.5s ease-in-out infinite;
-        }
-        
-        .loading-subtitle {
-            font-family: var(--font-body);
-            font-size: clamp(12px, 2vw, 16px);
-            color: var(--secondary);
-            letter-spacing: 4px;
-            text-transform: uppercase;
-            margin-top: 20px;
-            font-weight: 300;
-            opacity: 0.8;
-        }
-        
-        @keyframes fadeInScale {
-            0%, 100% { 
-                opacity: 1;
-                transform: scale(1);
-            }
-            50% { 
-                opacity: 0.7;
-                transform: scale(0.98);
-            }
-        }
-        
-        @keyframes pulse {
-            0%, 100% { 
-                opacity: 1;
-                transform: scale(1);
-            }
-            50% { 
-                opacity: 0.6;
-                transform: scale(1.2);
-            }
-        }
-        
-        /* ========================================
-           NAVIGATION - ENHANCED
-        ======================================== */
-        .navbar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            padding: 18px 0;
-            z-index: 1000;
-            transition: var(--transition-smooth);
-            background: transparent;
-        }
-        
-        .navbar.scrolled {
-            background: rgba(255, 248, 240, 0.98);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            padding: 12px 0;
-            box-shadow: 0 4px 30px rgba(44, 24, 16, 0.1);
-        }
-        
-        .nav-container {
-            max-width: var(--container-width);
-            margin: 0 auto;
-            padding: 0 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        /* LOGO - Add your logo image here */
-        .logo {
-            font-family: var(--font-display);
-            font-size: clamp(24px, 5vw, 36px);
-            font-weight: 700;
-            color: var(--primary-dark);
-            text-decoration: none;
-            letter-spacing: 2px;
-            position: relative;
-            transition: var(--transition-fast);
-            z-index: 1001;
-        }
-        
-        /* 
-        TO ADD LOGO IMAGE: Replace the .logo style above with this:
-        .logo {
-            display: block;
-            height: 50px;
-            transition: var(--transition-fast);
-            z-index: 1001;
-        }
-        
-        .logo img {
-            height: 100%;
-            width: auto;
-            object-fit: contain;
-        }
-        
-        Then replace <a href="#" class="logo">Krema</a> with:
-        <a href="#" class="logo">
-            <img src="images/logo.png" alt="Krema Logo">
-        </a>
-        */
-        
-        .logo:hover {
-            color: var(--gold);
-            transform: scale(1.05);
-        }
-        
-        .nav-menu {
-            display: flex;
-            list-style: none;
-            gap: 35px;
-            align-items: center;
-        }
-        
-        .nav-menu a {
-            text-decoration: none;
-            color: var(--text-dark);
-            font-weight: 500;
-            font-size: 15px;
-            position: relative;
-            transition: var(--transition-fast);
-            letter-spacing: 0.5px;
-            padding: 8px 0;
-        }
-        
-        .nav-menu a::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 0;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, var(--gold), transparent);
-            transition: width 0.4s ease;
-        }
-        
-        .nav-menu a:hover::after,
-        .nav-menu a.active::after {
-            width: 100%;
-        }
-        
-        .nav-menu a:hover {
-            color: var(--gold);
-        }
-        
-        .cta-btn {
-            padding: 12px 28px;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-            color: var(--white) !important;
-            border-radius: 50px;
-            font-weight: 600;
-            letter-spacing: 1px;
-            transition: var(--transition-smooth);
-            box-shadow: 0 4px 15px rgba(139, 111, 71, 0.3);
-            border: 2px solid transparent;
-        }
-        
-        .cta-btn::after {
-            display: none;
-        }
-        
-        .cta-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 25px rgba(139, 111, 71, 0.4);
-            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--espresso) 100%);
-        }
-        
-        /* Mobile Menu */
-        .mobile-menu-toggle {
-            display: none;
-            flex-direction: column;
-            gap: 5px;
-            cursor: pointer;
-            z-index: 1001;
-            padding: 8px;
-        }
-        
-        .mobile-menu-toggle span {
-            width: 28px;
-            height: 3px;
-            background: var(--primary-dark);
-            border-radius: 2px;
-            transition: var(--transition-fast);
-        }
-        
-        .mobile-menu-toggle.active span:nth-child(1) {
-            transform: rotate(45deg) translate(8px, 8px);
-        }
-        
-        .mobile-menu-toggle.active span:nth-child(2) {
-            opacity: 0;
-        }
-        
-        .mobile-menu-toggle.active span:nth-child(3) {
-            transform: rotate(-45deg) translate(8px, -8px);
-        }
-        
-        /* ========================================
-           HERO SECTION - DRAMATICALLY IMPROVED
-        ======================================== */
+        .nav-links a:hover, .nav-links a.active { color:var(--espresso); }
+        .nav-links a:hover::after, .nav-links a.active::after { width:100%; }
+
+        .hamburger { display:none; flex-direction:column; gap:5px; cursor:pointer; padding:4px; z-index:1001; }
+        .hamburger span { width:24px; height:1.5px; background:var(--espresso); transition:all .3s; display:block; }
+        .hamburger.open span:nth-child(1) { transform:rotate(45deg) translate(4.5px,4.5px); }
+        .hamburger.open span:nth-child(2) { opacity:0; }
+        .hamburger.open span:nth-child(3) { transform:rotate(-45deg) translate(4.5px,-4.5px); }
+
+        /* ─── HERO ─── */
         .hero {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            position: relative;
-            background: linear-gradient(135deg, var(--cream) 0%, var(--cream-dark) 50%, var(--cream) 100%);
-            overflow: hidden;
-            padding: 100px 0 60px;
+            min-height:100vh;
+            display:flex; align-items:center; justify-content:center;
+            background:var(--cream);
+            position:relative;
+            padding:140px 20px 80px;
+            text-align:center; overflow:hidden;
         }
-        
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -20%;
-            width: 800px;
-            height: 800px;
-            background: radial-gradient(circle, rgba(212, 175, 55, 0.15) 0%, transparent 70%);
-            border-radius: 50%;
-            animation: heroFloat 20s ease-in-out infinite;
+        .hero::before, .hero::after {
+            content:''; position:absolute;
+            left:50%; transform:translateX(-50%); width:1px;
         }
-        
-        .hero::after {
-            content: '';
-            position: absolute;
-            bottom: -30%;
-            left: -10%;
-            width: 600px;
-            height: 600px;
-            background: radial-gradient(circle, rgba(139, 111, 71, 0.1) 0%, transparent 70%);
-            border-radius: 50%;
-            animation: heroFloat 15s ease-in-out infinite reverse;
+        .hero::before { top:0; height:90px; background:linear-gradient(to bottom,transparent,var(--line)); }
+        .hero::after  { bottom:0; height:90px; background:linear-gradient(to top,transparent,var(--line)); }
+
+        .hero-inner { max-width:740px; position:relative; }
+
+        .hero-label {
+            display:block; font-family:var(--sans);
+            font-size:11px; letter-spacing:6px; text-transform:uppercase;
+            color:var(--brown-lt); margin-bottom:28px;
+            opacity:0; animation:fadeIn .8s ease 1.8s forwards;
         }
-        
-        @keyframes heroFloat {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            50% { transform: translate(50px, 50px) scale(1.1); }
-        }
-        
-        .hero-container {
-            max-width: var(--container-width);
-            margin: 0 auto;
-            padding: 0 20px;
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 50px;
-            align-items: center;
-            position: relative;
-            z-index: 1;
-        }
-        
-        .hero-content {
-            text-align: center;
-        }
-        
-        .hero-badge {
-            display: inline-block;
-            padding: 10px 25px;
-            background: rgba(212, 175, 55, 0.15);
-            backdrop-filter: blur(10px);
-            border-radius: 50px;
-            color: var(--primary-dark);
-            font-weight: 600;
-            font-size: 14px;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            margin-bottom: 25px;
-            border: 1px solid rgba(212, 175, 55, 0.3);
-            animation: fadeInDown 1s ease 0.2s both;
-        }
-        
         .hero-title {
-            font-family: var(--font-display);
-            font-size: clamp(48px, 10vw, 85px);
-            font-weight: 800;
-            line-height: 1.1;
-            color: var(--espresso);
-            margin-bottom: 25px;
-            letter-spacing: -1px;
-            animation: fadeInUp 1s ease 0.4s both;
-        }
-        
-        .hero-title .highlight {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--gold) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            position: relative;
-        }
-        
-        .hero-subtitle {
-            font-size: clamp(18px, 3vw, 24px);
-            color: var(--text-gray);
-            margin-bottom: 40px;
-            line-height: 1.6;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-            animation: fadeInUp 1s ease 0.6s both;
-        }
-        
-        .hero-buttons {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-            flex-wrap: wrap;
-            animation: fadeInUp 1s ease 0.8s both;
-        }
-        
-        .btn {
-            padding: 16px 40px;
-            font-size: 16px;
-            font-weight: 600;
-            border-radius: 50px;
-            text-decoration: none;
-            transition: var(--transition-smooth);
-            letter-spacing: 1px;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            cursor: pointer;
-            border: 2px solid;
-        }
-        
-        .btn-primary {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-            color: var(--white);
-            border-color: transparent;
-            box-shadow: 0 4px 20px rgba(139, 111, 71, 0.3);
-        }
-        
-        .btn-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 30px rgba(139, 111, 71, 0.4);
-        }
-        
-        .btn-secondary {
-            background: transparent;
-            color: var(--primary-dark);
-            border-color: var(--primary);
-        }
-        
-        .btn-secondary:hover {
-            background: var(--primary);
-            color: var(--white);
-            transform: translateY(-3px);
-        }
-        
-        @keyframes fadeInDown {
-            from {
-                opacity: 0;
-                transform: translateY(-30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        /* ========================================
-           STATS SECTION - REDESIGNED
-        ======================================== */
-        .stats {
-            padding: 60px 0;
-            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--espresso) 100%);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .stats::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="1" fill="rgba(255,255,255,0.1)"/></svg>');
-            opacity: 0.3;
-        }
-        
-        .stats-container {
-            max-width: var(--container-width);
-            margin: 0 auto;
-            padding: 0 20px;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 40px;
-            position: relative;
-            z-index: 1;
-        }
-        
-        .stat-item {
-            text-align: center;
-            padding: 20px;
-            border-radius: 20px;
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            transition: var(--transition-smooth);
-        }
-        
-        .stat-item:hover {
-            transform: translateY(-10px);
-            background: rgba(255, 255, 255, 0.1);
-        }
-        
-        .stat-number {
-            font-family: var(--font-display);
-            font-size: clamp(40px, 8vw, 60px);
-            font-weight: 800;
-            color: var(--gold);
-            line-height: 1;
-            margin-bottom: 10px;
-        }
-        
-        .stat-label {
-            font-size: 16px;
-            color: rgba(255, 255, 255, 0.9);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            font-weight: 500;
-        }
-        
-        /* ========================================
-           ABOUT SECTION - ENHANCED WITH IMAGE SUPPORT
-        ======================================== */
-        .about {
-            padding: var(--section-padding) 0;
-            background: var(--white);
-            position: relative;
-        }
-        
-        .about-container {
-            max-width: var(--container-width);
-            margin: 0 auto;
-            padding: 0 20px;
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 60px;
-            align-items: center;
-        }
-        
-        .about-content h2 {
-            font-family: var(--font-display);
-            font-size: clamp(36px, 7vw, 60px);
-            font-weight: 700;
-            color: var(--espresso);
-            margin-bottom: 25px;
-            line-height: 1.2;
-        }
-        
-        .about-content h2 .highlight {
-            color: var(--gold);
-        }
-        
-        .about-content p {
-            font-size: clamp(16px, 2.5vw, 18px);
-            color: var(--text-gray);
-            line-height: 1.8;
-            margin-bottom: 20px;
-        }
-        
-        /* ABOUT IMAGE - Flexible container for photos */
-        .about-image {
-            width: 100%;
-            height: 400px;
-            border-radius: 25px;
-            overflow: hidden;
-            box-shadow: 0 15px 60px var(--shadow-lg);
-            position: relative;
-        }
-        
-        .about-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover; /* Ensures image covers container while maintaining aspect ratio */
-            object-position: center; /* Centers the image */
-            transition: var(--transition-smooth);
-        }
-        
-        .about-image:hover img {
-            transform: scale(1.05);
-        }
-        
-        /* Placeholder for when no image is added */
-        .about-image-placeholder {
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, var(--cream-dark) 0%, var(--secondary) 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 80px;
-        }
-        
-        /* 
-        TO ADD ABOUT IMAGE:
-        Replace the div with class "about-image-placeholder" with:
-        <img src="images/about-cafe.jpg" alt="Krema Cafe Interior">
-        
-        Recommended image: Interior shot of your cafe, coffee being made, or team photo
-        Dimensions: Minimum 800x600px for best quality
-        */
-        
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 30px;
-            margin-top: 40px;
-        }
-        
-        .feature-item {
-            padding: 30px;
-            background: var(--cream);
-            border-radius: 20px;
-            text-align: center;
-            transition: var(--transition-smooth);
-            border: 2px solid transparent;
-        }
-        
-        .feature-item:hover {
-            transform: translateY(-10px);
-            border-color: var(--gold);
-            box-shadow: 0 10px 40px var(--shadow);
-        }
-        
-        .feature-icon {
-            font-size: 50px;
-            margin-bottom: 20px;
-            display: block;
-        }
-        
-        .feature-item h3 {
-            font-family: var(--font-heading);
-            font-size: 22px;
-            color: var(--espresso);
-            margin-bottom: 12px;
-            font-weight: 600;
-        }
-        
-        .feature-item p {
-            font-size: 15px;
-            color: var(--text-gray);
-            line-height: 1.6;
-        }
-        
-        /* ========================================
-           MENU SECTION - WITH IMAGE SUPPORT
-        ======================================== */
-        .menu {
-            padding: var(--section-padding) 0;
-            background: linear-gradient(180deg, var(--cream) 0%, var(--white) 50%, var(--cream) 100%);
-        }
-        
-        .menu-container {
-            max-width: var(--container-width);
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-        
-        .section-header {
-            text-align: center;
-            margin-bottom: 60px;
-        }
-        
-        .section-badge {
-            display: inline-block;
-            padding: 8px 20px;
-            background: rgba(212, 175, 55, 0.15);
-            border-radius: 50px;
-            color: var(--primary-dark);
-            font-weight: 600;
-            font-size: 14px;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            margin-bottom: 20px;
-        }
-        
-        .section-title {
-            font-family: var(--font-display);
-            font-size: clamp(36px, 7vw, 60px);
-            font-weight: 700;
-            color: var(--espresso);
-            margin-bottom: 15px;
-            line-height: 1.2;
-        }
-        
-        .section-subtitle {
-            font-size: clamp(16px, 2.5vw, 20px);
-            color: var(--text-gray);
-            max-width: 600px;
-            margin: 0 auto;
-        }
-        
-        .filter-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            flex-wrap: wrap;
-            margin-bottom: 50px;
-        }
-        
-        .filter-btn {
-            padding: 12px 30px;
-            background: var(--white);
-            border: 2px solid var(--cream-dark);
-            border-radius: 50px;
-            color: var(--text-dark);
-            font-weight: 600;
-            font-size: 15px;
-            cursor: pointer;
-            transition: var(--transition-smooth);
-            letter-spacing: 0.5px;
-        }
-        
-        .filter-btn:hover,
-        .filter-btn.active {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-            color: var(--white);
-            border-color: var(--primary);
-            transform: translateY(-3px);
-            box-shadow: 0 5px 20px rgba(139, 111, 71, 0.3);
-        }
-        
-        .menu-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 30px;
-        }
-        
-        .menu-item {
-            background: var(--white);
-            border-radius: 25px;
-            overflow: hidden;
-            box-shadow: 0 5px 30px var(--shadow);
-            transition: var(--transition-smooth);
-            opacity: 1;
-            transform: scale(1);
-        }
-        
-        .menu-item:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 50px var(--shadow-lg);
-        }
-        
-        /* MENU ITEM IMAGE - Flexible for different photos */
-        .menu-item-image {
-            height: 220px;
-            position: relative;
-            overflow: hidden;
-            background: linear-gradient(135deg, var(--cream-dark) 0%, var(--secondary) 100%);
-        }
-        
-        .menu-item-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover; /* Ensures image fills space proportionally */
-            object-position: center;
-            transition: var(--transition-smooth);
-        }
-        
-        .menu-item:hover .menu-item-image img {
-            transform: scale(1.1);
-        }
-        
-        /* Placeholder when no image */
-        .menu-item-image-placeholder {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 80px;
-        }
-        
-        /* Shimmer effect overlay */
-        .menu-item-image::after {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.3), transparent);
-            transform: rotate(45deg);
-            transition: var(--transition-smooth);
-        }
-        
-        .menu-item:hover .menu-item-image::after {
-            animation: shimmer 1.5s;
-        }
-        
-        @keyframes shimmer {
-            0% { transform: translateX(-100%) rotate(45deg); }
-            100% { transform: translateX(100%) rotate(45deg); }
-        }
-        
-        /* 
-        TO ADD MENU ITEM IMAGES:
-        Replace <div class="menu-item-image-placeholder">☕</div> with:
-        <img src="images/menu/espresso.jpg" alt="Espresso">
-        
-        Recommended: High-quality food photography
-        Dimensions: Minimum 600x400px
-        Aspect Ratio: 3:2 works best
-        */
-        
-        .menu-item-content {
-            padding: 25px;
-        }
-        
-        .menu-item-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 12px;
-            gap: 15px;
-        }
-        
-        .menu-item-title {
-            font-family: var(--font-heading);
-            font-size: 22px;
-            font-weight: 700;
-            color: var(--espresso);
-            line-height: 1.3;
-        }
-        
-        .menu-item-price {
-            font-family: var(--font-display);
-            font-size: 24px;
-            font-weight: 700;
-            color: var(--gold);
-            white-space: nowrap;
-        }
-        
-        .menu-item-description {
-            font-size: 14px;
-            color: var(--text-gray);
-            line-height: 1.6;
-            margin-bottom: 15px;
-        }
-        
-        .menu-item-badge {
-            display: inline-block;
-            padding: 5px 15px;
-            background: linear-gradient(135deg, var(--gold) 0%, var(--accent) 100%);
-            color: var(--white);
-            font-size: 11px;
-            font-weight: 700;
-            border-radius: 20px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        
-        /* ========================================
-           GALLERY SECTION - FLEXIBLE IMAGE GRID
-        ======================================== */
-        .gallery {
-            padding: var(--section-padding) 0;
-            background: var(--espresso);
-            position: relative;
-        }
-        
-        .gallery::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: url('data:image/svg+xml,<svg width="60" height="60" xmlns="http://www.w3.org/2000/svg"><circle cx="30" cy="30" r="1" fill="rgba(255,255,255,0.05)"/></svg>');
-        }
-        
-        .gallery-container {
-            max-width: var(--container-width);
-            margin: 0 auto;
-            padding: 0 20px;
-            position: relative;
-            z-index: 1;
-        }
-        
-        .gallery .section-badge {
-            background: rgba(212, 175, 55, 0.2);
-            color: var(--gold);
-        }
-        
-        .gallery .section-title {
-            color: var(--white);
-        }
-        
-        .gallery .section-subtitle {
-            color: rgba(255, 255, 255, 0.7);
-        }
-        
+            font-family:var(--serif);
+            font-size:clamp(52px,9vw,94px); font-weight:300; font-style:italic;
+            line-height:1.06; letter-spacing:-1px; color:var(--espresso);
+            margin-bottom:34px;
+            opacity:0; animation:heroUp 1s var(--ease) 2s forwards;
+        }
+        .hero-title strong { font-weight:600; font-style:normal; }
+
+        .hero-divider {
+            display:flex; align-items:center; justify-content:center; gap:18px;
+            margin:0 auto 34px;
+            opacity:0; animation:fadeIn .8s ease 2.4s forwards;
+        }
+        .hero-divider::before, .hero-divider::after { content:''; flex:1; max-width:54px; height:1px; background:var(--line); }
+        .hero-divider-dot { width:4px; height:4px; border-radius:50%; background:var(--gold); }
+
+        .hero-sub {
+            font-family:var(--sans); font-size:clamp(15px,2vw,17px); font-weight:300;
+            color:var(--text-lt); line-height:1.85; max-width:440px;
+            margin:0 auto 48px;
+            opacity:0; animation:fadeIn .8s ease 2.6s forwards;
+        }
+        .hero-ctas {
+            display:flex; align-items:center; justify-content:center; gap:8px;
+            opacity:0; animation:fadeIn .8s ease 2.8s forwards;
+        }
+
+        /* ─── BUTTONS ─── */
+        .btn-outline {
+            display:inline-block; padding:14px 36px;
+            border:1px solid var(--brown); color:var(--espresso);
+            font-family:var(--sans); font-size:11px; letter-spacing:3px; text-transform:uppercase;
+            text-decoration:none; transition:background .3s,color .3s,border-color .3s;
+        }
+        .btn-outline:hover { background:var(--espresso); border-color:var(--espresso); color:var(--cream); }
+        .btn-ghost {
+            display:inline-block; padding:14px 28px;
+            color:var(--brown-lt); font-family:var(--sans);
+            font-size:11px; letter-spacing:3px; text-transform:uppercase;
+            text-decoration:none; transition:color .3s;
+        }
+        .btn-ghost:hover { color:var(--espresso); }
+
+        /* ─── PHOTO STRIP ─── */
+        .photo-strip {
+            height:480px; overflow:hidden; position:relative;
+        }
+        .photo-strip img {
+            width:100%; height:100%; object-fit:cover; object-position:center 40%;
+            display:block;
+            transform:scale(1.04);
+            transition:transform 8s var(--ease);
+        }
+        .photo-strip.in-view img { transform:scale(1); }
+        .photo-strip-overlay {
+            position:absolute; inset:0;
+            background:linear-gradient(to bottom, rgba(250,247,242,.25) 0%, transparent 30%, transparent 70%, rgba(250,247,242,.25) 100%);
+        }
+
+        /* ─── STATS ─── */
+        .stats { background:var(--espresso); padding:72px 0; }
+        .stats-inner {
+            max-width:1200px; margin:0 auto; padding:0 48px;
+            display:grid; grid-template-columns:repeat(4,1fr);
+        }
+        .stat { text-align:center; padding:16px 24px; border-right:1px solid rgba(255,255,255,.08); }
+        .stat:last-child { border-right:none; }
+        .stat-num {
+            font-family:var(--serif); font-size:clamp(44px,5.5vw,58px); font-weight:300;
+            color:var(--cream); line-height:1; margin-bottom:6px;
+        }
+        .stat-accent { font-family:var(--serif); font-size:17px; font-style:italic; color:var(--gold); margin-bottom:6px; }
+        .stat-label { font-family:var(--sans); font-size:10px; letter-spacing:3px; text-transform:uppercase; color:rgba(255,255,255,.38); }
+
+        /* ─── SECTION HEADER ─── */
+        .sh { text-align:center; margin-bottom:72px; }
+        .sh.left { text-align:left; }
+        .sh-label { display:block; font-family:var(--sans); font-size:10px; letter-spacing:5px; text-transform:uppercase; color:var(--gold); margin-bottom:20px; }
+        .sh-title { font-family:var(--serif); font-size:clamp(36px,5.5vw,54px); font-weight:300; font-style:italic; color:var(--espresso); line-height:1.15; margin-bottom:22px; }
+        .sh-title strong { font-weight:600; font-style:normal; }
+        .sh-div { display:flex; align-items:center; gap:14px; margin-bottom:20px; }
+        .sh:not(.left) .sh-div { justify-content:center; }
+        .sh.left .sh-div { justify-content:flex-start; }
+        .sh-div::before, .sh-div::after { content:''; width:44px; height:1px; background:var(--line); }
+        .sh-dot { width:4px; height:4px; border-radius:50%; background:var(--gold); }
+        .sh-sub { font-family:var(--sans); font-size:15px; color:var(--text-lt); max-width:500px; line-height:1.8; }
+        .sh:not(.left) .sh-sub { margin:0 auto; }
+
+        /* ─── ABOUT ─── */
+        .about { padding:128px 0; background:var(--white); }
+        .about-inner { max-width:1200px; margin:0 auto; padding:0 48px; }
+        .about-prose { max-width:680px; margin:0 auto 88px; text-align:center; }
+        .about-prose p { font-family:var(--serif); font-size:clamp(17px,2.2vw,21px); font-weight:300; color:var(--text-mid); line-height:1.95; margin-bottom:18px; }
+
+        .pillars { display:grid; grid-template-columns:repeat(4,1fr); border:1px solid var(--line); }
+        .pillar { padding:52px 32px; border-right:1px solid var(--line); text-align:center; transition:background .3s; }
+        .pillar:last-child { border-right:none; }
+        .pillar:hover { background:var(--cream); }
+        .pillar-icon { width:44px; height:44px; margin:0 auto 26px; color:var(--gold); }
+        .pillar-title { font-family:var(--serif); font-size:20px; font-weight:500; color:var(--espresso); margin-bottom:10px; }
+        .pillar-text { font-family:var(--sans); font-size:13px; color:var(--text-lt); line-height:1.7; }
+
+        /* ─── MENU ─── */
+        .menu-sec { padding:128px 0; background:var(--cream); }
+        .menu-inner { max-width:860px; margin:0 auto; padding:0 48px; }
+        .menu-tabs { display:flex; justify-content:center; border-bottom:1px solid var(--line); margin-bottom:56px; }
+        .tab {
+            padding:14px 26px; font-family:var(--sans); font-size:11px; letter-spacing:2px; text-transform:uppercase;
+            color:var(--text-lt); background:none; border:none; cursor:pointer;
+            position:relative; transition:color .3s;
+        }
+        .tab::after { content:''; position:absolute; bottom:-1px; left:0; right:0; height:1px; background:var(--espresso); transform:scaleX(0); transition:transform .3s; }
+        .tab.active, .tab:hover { color:var(--espresso); }
+        .tab.active::after { transform:scaleX(1); }
+
+        .menu-list { display:none; }
+        .menu-list.active { display:block; }
+
+        .menu-row { display:flex; align-items:baseline; gap:16px; padding:24px 0; border-bottom:1px solid var(--line); }
+        .menu-row:last-child { border-bottom:none; }
+        .menu-row-left { flex:1; min-width:0; }
+        .menu-row-name { font-family:var(--serif); font-size:22px; font-weight:500; color:var(--espresso); margin-bottom:4px; }
+        .menu-row-desc { font-family:var(--sans); font-size:13px; color:var(--text-lt); line-height:1.5; }
+        .menu-row-dots { flex:1; border-bottom:1px dotted var(--cream-dark); margin-bottom:7px; min-width:30px; }
+        .menu-row-price { font-family:var(--serif); font-size:19px; font-weight:400; color:var(--brown); white-space:nowrap; }
+        .menu-tag {
+            display:inline-block; padding:2px 9px;
+            border:1px solid var(--gold); color:var(--gold);
+            font-family:var(--sans); font-size:9px; letter-spacing:1.5px; text-transform:uppercase;
+            margin-left:10px; vertical-align:middle;
+        }
+
+        /* ─── GALLERY ─── */
+        .gallery { padding:128px 0; background:var(--espresso); }
+        .gallery-inner { max-width:1200px; margin:0 auto; padding:0 48px; }
+        .gallery .sh-title { color:var(--cream); }
+        .gallery .sh-sub   { color:rgba(250,247,242,.45); }
+        .gallery .sh-div::before, .gallery .sh-div::after { background:rgba(255,255,255,.12); }
+
         .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-        }
-        
-        /* GALLERY ITEM - Flexible for any image */
-        .gallery-item {
-            height: 300px;
-            border-radius: 20px;
-            overflow: hidden;
-            position: relative;
-            cursor: pointer;
-            transition: var(--transition-smooth);
-        }
-        
-        .gallery-item:hover {
-            transform: scale(1.05);
-            box-shadow: 0 15px 50px rgba(212, 175, 55, 0.4);
-            z-index: 10;
-        }
-        
-        .gallery-item img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover; /* Image fills container proportionally */
-            object-position: center;
-            transition: var(--transition-smooth);
-        }
-        
-        .gallery-item:hover img {
-            transform: scale(1.1);
-        }
-        
-        /* Placeholder when no image */
-        .gallery-item-placeholder {
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 100px;
-        }
-        
-        /* Dark overlay on hover */
-        .gallery-item::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.7) 100%);
-            opacity: 0;
-            transition: var(--transition-smooth);
-            z-index: 1;
-        }
-        
-        .gallery-item:hover::before {
-            opacity: 1;
-        }
-        
-        .gallery-overlay {
-            position: absolute;
-            bottom: -100%;
-            left: 0;
-            right: 0;
-            padding: 25px;
-            transition: var(--transition-smooth);
-            z-index: 2;
-        }
-        
-        .gallery-item:hover .gallery-overlay {
-            bottom: 0;
-        }
-        
-        .gallery-title {
-            font-family: var(--font-heading);
-            font-size: 22px;
-            color: var(--white);
-            margin-bottom: 8px;
-            font-weight: 600;
-        }
-        
-        .gallery-category {
-            font-size: 14px;
-            color: var(--gold);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-weight: 600;
-        }
-        
-        /* 
-        TO ADD GALLERY IMAGES:
-        Replace <div class="gallery-item-placeholder">☕</div> with:
-        <img src="images/gallery/photo-1.jpg" alt="Coffee Art">
-        
-        Recommended: Square or landscape photos
-        Dimensions: Minimum 600x600px
-        Mix of coffee, food, interior, and atmosphere shots
-        */
-        
-        /* ========================================
-           TESTIMONIALS - ENHANCED DESIGN
-        ======================================== */
-        .testimonials {
-            padding: var(--section-padding) 0;
-            background: var(--white);
-        }
-        
-        .testimonials-container {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-        
-        .testimonials-slider {
-            position: relative;
-            margin-top: 50px;
-        }
-        
-        .testimonial-card {
-            background: linear-gradient(135deg, var(--cream) 0%, var(--white) 100%);
-            padding: 50px;
-            border-radius: 30px;
-            text-align: center;
-            box-shadow: 0 10px 60px var(--shadow);
-            display: none;
-            animation: fadeIn 0.5s ease;
-        }
-        
-        .testimonial-card.active {
-            display: block;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: scale(0.95); }
-            to { opacity: 1; transform: scale(1); }
-        }
-        
-        .quote-icon {
-            font-size: 60px;
-            color: var(--gold);
-            opacity: 0.3;
-            line-height: 1;
-            margin-bottom: 20px;
-        }
-        
-        .testimonial-text {
-            font-family: var(--font-heading);
-            font-size: clamp(18px, 3vw, 24px);
-            font-style: italic;
-            color: var(--text-dark);
-            line-height: 1.8;
-            margin-bottom: 30px;
-        }
-        
-        .testimonial-author {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 15px;
-            margin-bottom: 15px;
-        }
-        
-        /* TESTIMONIAL AVATAR - Can use real photos */
-        .author-avatar {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            overflow: hidden;
-            border: 3px solid var(--white);
-            box-shadow: 0 5px 20px var(--shadow);
-            flex-shrink: 0;
-        }
-        
-        .author-avatar img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        
-        /* Placeholder for avatar */
-        .author-avatar-placeholder {
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--gold) 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 28px;
-        }
-        
-        /* 
-        TO ADD TESTIMONIAL PHOTOS:
-        Replace <div class="author-avatar-placeholder">👩</div> with:
-        <img src="images/testimonials/customer-1.jpg" alt="Sarah Johnson">
-        
-        Recommended: Headshot photos
-        Dimensions: 200x200px (square)
-        */
-        
-        .author-info h4 {
-            font-size: 18px;
-            font-weight: 700;
-            color: var(--espresso);
-            margin-bottom: 3px;
-        }
-        
-        .author-info p {
-            font-size: 14px;
-            color: var(--text-gray);
-        }
-        
-        .testimonial-rating {
-            font-size: 20px;
-            color: var(--gold);
-            letter-spacing: 3px;
-        }
-        
-        .slider-nav {
-            display: flex;
-            justify-content: center;
-            gap: 12px;
-            margin-top: 35px;
-        }
-        
-        .nav-dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: var(--cream-dark);
-            cursor: pointer;
-            transition: var(--transition-fast);
-        }
-        
-        .nav-dot.active,
-        .nav-dot:hover {
-            background: var(--gold);
-            transform: scale(1.3);
-        }
-        
-        /* ========================================
-           LOCATION SECTION - MODERN DESIGN
-        ======================================== */
-        .location {
-            padding: var(--section-padding) 0;
-            background: linear-gradient(135deg, var(--cream) 0%, var(--cream-dark) 100%);
-        }
-        
-        .location-container {
-            max-width: var(--container-width);
-            margin: 0 auto;
-            padding: 0 20px;
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 50px;
-            align-items: center;
-        }
-        
-        .location-info h2 {
-            font-family: var(--font-display);
-            font-size: clamp(36px, 7vw, 55px);
-            font-weight: 700;
-            color: var(--espresso);
-            margin-bottom: 30px;
-            line-height: 1.2;
-        }
-        
-        .location-details {
-            display: flex;
-            flex-direction: column;
-            gap: 25px;
-            margin-bottom: 35px;
-        }
-        
-        .location-item {
-            display: flex;
-            align-items: flex-start;
-            gap: 20px;
-            padding: 20px;
-            background: var(--white);
-            border-radius: 15px;
-            transition: var(--transition-smooth);
-            box-shadow: 0 5px 20px var(--shadow);
-        }
-        
-        .location-item:hover {
-            transform: translateX(10px);
-            box-shadow: 0 8px 30px var(--shadow-md);
-        }
-        
-        .location-icon {
-            font-size: 30px;
-            min-width: 50px;
-            height: 50px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--gold) 100%);
-            border-radius: 12px;
-            flex-shrink: 0;
-        }
-        
-        .location-item-content h3 {
-            font-size: 18px;
-            font-weight: 700;
-            color: var(--espresso);
-            margin-bottom: 5px;
-        }
-        
-        .location-item-content p {
-            font-size: 15px;
-            color: var(--text-gray);
-            line-height: 1.6;
-        }
-        
-        /* LOCATION MAP - Can embed Google Maps or use image */
-        .location-map {
-            height: 450px;
-            background: var(--white);
-            border-radius: 25px;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 10px 50px var(--shadow);
-        }
-        
-        .location-map iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-        
-        /* Map placeholder */
-        .location-map-placeholder {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(135deg, var(--cream-dark) 0%, var(--secondary) 100%);
-        }
-        
-        .location-map-placeholder::before {
-            content: '📍';
-            font-size: 80px;
-            animation: mapPulse 2s ease-in-out infinite;
-        }
-        
-        @keyframes mapPulse {
-            0%, 100% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.2); opacity: 0.6; }
-        }
-        
-        .map-label {
-            position: absolute;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            padding: 15px 30px;
-            background: rgba(139, 111, 71, 0.95);
-            backdrop-filter: blur(10px);
-            color: var(--white);
-            border-radius: 50px;
-            font-weight: 600;
-            letter-spacing: 1px;
-        }
-        
-        /* 
-        TO ADD GOOGLE MAPS:
-        1. Go to Google Maps, search your location
-        2. Click "Share" → "Embed a map"
-        3. Copy the iframe code
-        4. Replace the .location-map-placeholder div with:
-        
-        <iframe 
-            src="YOUR_GOOGLE_MAPS_EMBED_URL" 
-            allowfullscreen="" 
-            loading="lazy">
-        </iframe>
-        
-        OR use a map image:
-        <img src="images/map-location.jpg" alt="Location Map">
-        */
-        
-        /* ========================================
-           CONTACT SECTION - BEAUTIFUL FORM
-        ======================================== */
-        .contact {
-            padding: var(--section-padding) 0;
-            background: var(--white);
-        }
-        
-        .contact-container {
-            max-width: 700px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-        
-        .contact-form {
-            background: linear-gradient(135deg, var(--cream) 0%, var(--white) 100%);
-            padding: 50px;
-            border-radius: 30px;
-            box-shadow: 0 10px 60px var(--shadow);
-            margin-top: 50px;
-        }
-        
-        .form-group {
-            margin-bottom: 25px;
-        }
-        
-        .form-label {
-            display: block;
-            font-weight: 600;
-            font-size: 15px;
-            color: var(--espresso);
-            margin-bottom: 10px;
-            letter-spacing: 0.5px;
-        }
-        
-        .form-input,
-        .form-textarea {
-            width: 100%;
-            padding: 16px 20px;
-            border: 2px solid var(--cream-dark);
-            border-radius: 15px;
-            font-family: var(--font-body);
-            font-size: 15px;
-            color: var(--text-dark);
-            transition: var(--transition-fast);
-            background: var(--white);
-        }
-        
-        .form-input:focus,
-        .form-textarea:focus {
-            outline: none;
-            border-color: var(--gold);
-            box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.1);
-        }
-        
-        .form-textarea {
-            resize: vertical;
-            min-height: 140px;
-        }
-        
-        .form-submit {
-            width: 100%;
-            padding: 18px;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-            color: var(--white);
-            border: none;
-            border-radius: 15px;
-            font-size: 16px;
-            font-weight: 700;
-            letter-spacing: 1px;
-            cursor: pointer;
-            transition: var(--transition-smooth);
-            text-transform: uppercase;
-            box-shadow: 0 5px 25px rgba(139, 111, 71, 0.3);
-        }
-        
-        .form-submit:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 35px rgba(139, 111, 71, 0.4);
-        }
-        
-        /* ========================================
-           FOOTER - ELEGANT DESIGN
-        ======================================== */
-        .footer {
-            background: linear-gradient(135deg, var(--espresso) 0%, #1a0f0a 100%);
-            color: var(--white);
-            padding: 60px 0 30px;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .footer::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: url('data:image/svg+xml,<svg width="60" height="60" xmlns="http://www.w3.org/2000/svg"><circle cx="30" cy="30" r="1" fill="rgba(255,255,255,0.03)"/></svg>');
-        }
-        
-        .footer-container {
-            max-width: var(--container-width);
-            margin: 0 auto;
-            padding: 0 20px;
-            position: relative;
-            z-index: 1;
-        }
-        
-        .footer-content {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 40px;
-            margin-bottom: 50px;
-            padding-bottom: 40px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        .footer-section h3 {
-            font-family: var(--font-display);
-            font-size: 24px;
-            margin-bottom: 20px;
-            color: var(--gold);
-        }
-        
-        .footer-section p,
-        .footer-section a {
-            color: rgba(255, 255, 255, 0.7);
-            line-height: 1.8;
-            text-decoration: none;
-            transition: var(--transition-fast);
-            display: block;
-            margin-bottom: 10px;
-        }
-        
-        .footer-section a:hover {
-            color: var(--gold);
-            transform: translateX(5px);
-        }
-        
-        .social-links {
-            display: flex;
-            gap: 15px;
-            margin-top: 20px;
-        }
-        
-        .social-link {
-            width: 45px;
-            height: 45px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            font-size: 20px;
-            transition: var(--transition-smooth);
-        }
-        
-        .social-link:hover {
-            background: var(--gold);
-            transform: translateY(-5px);
-        }
-        
-        .footer-bottom {
-            text-align: center;
-            color: rgba(255, 255, 255, 0.5);
-            font-size: 14px;
-        }
-        
-        .footer-bottom a {
-            color: var(--gold);
-            text-decoration: none;
-        }
-        
-        /* ========================================
-           SCROLL TO TOP BUTTON
-        ======================================== */
-        .scroll-top {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            width: 55px;
-            height: 55px;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-            color: var(--white);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            cursor: pointer;
-            opacity: 0;
-            visibility: hidden;
-            transition: var(--transition-smooth);
-            z-index: 999;
-            box-shadow: 0 5px 25px rgba(139, 111, 71, 0.4);
-        }
-        
-        .scroll-top.visible {
-            opacity: 1;
-            visibility: visible;
-        }
-        
-        .scroll-top:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 35px rgba(139, 111, 71, 0.5);
-        }
-        
-        /* ========================================
-           REVEAL ANIMATIONS
-        ======================================== */
-        .reveal {
-            opacity: 0;
-            transform: translateY(40px);
-            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        
-        .reveal.active {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        
-        /* ========================================
-           MOBILE RESPONSIVE - OPTIMIZED
-        ======================================== */
-        @media (max-width: 968px) {
-            :root {
-                --section-padding: 50px;
+            display:grid;
+            grid-template-columns:repeat(3,1fr);
+            grid-template-rows:320px 320px;
+            gap:14px;
+        }
+        .gallery-cell:nth-child(1) { grid-column:span 2; }
+        .gallery-cell:nth-child(4) { grid-column:span 2; }
+
+        .gallery-cell { position:relative; overflow:hidden; cursor:pointer; }
+        .gallery-cell img {
+            width:100%; height:100%; object-fit:cover; object-position:center center;
+            transition:transform .65s var(--ease);
+            display:block;
+        }
+        .gallery-cell:hover img { transform:scale(1.07); }
+        .gallery-cell-overlay {
+            position:absolute; inset:0;
+            background:linear-gradient(to top,rgba(28,14,8,.75) 0%,transparent 55%);
+            opacity:0; transition:opacity .4s;
+        }
+        .gallery-cell:hover .gallery-cell-overlay { opacity:1; }
+        .gallery-cell-label {
+            position:absolute; bottom:22px; left:24px;
+            font-family:var(--serif); font-size:20px; font-style:italic; color:var(--cream);
+            opacity:0; transform:translateY(8px);
+            transition:opacity .4s,transform .4s;
+        }
+        .gallery-cell:hover .gallery-cell-label { opacity:1; transform:translateY(0); }
+
+        /* ─── TESTIMONIALS ─── */
+        .testimonials { padding:128px 0; background:var(--cream-mid); }
+        .testimonials-inner { max-width:700px; margin:0 auto; padding:0 48px; text-align:center; }
+        .t-block { display:none; }
+        .t-block.active { display:block; animation:fadeIn .6s ease; }
+        .t-quote { display:block; font-family:var(--serif); font-size:128px; line-height:.6; color:var(--gold); opacity:.18; margin-bottom:36px; }
+        .t-text { font-family:var(--serif); font-size:clamp(20px,3vw,27px); font-style:italic; font-weight:300; color:var(--espresso); line-height:1.75; margin-bottom:36px; }
+        .t-stars { font-size:13px; color:var(--gold); letter-spacing:5px; margin-bottom:24px; }
+        .t-name { font-family:var(--sans); font-size:12px; letter-spacing:3px; text-transform:uppercase; color:var(--text-mid); margin-bottom:4px; }
+        .t-role { font-family:var(--sans); font-size:12px; color:var(--text-lt); margin-bottom:44px; }
+        .t-dots { display:flex; justify-content:center; gap:12px; }
+        .t-dot { width:6px; height:6px; border-radius:50%; background:var(--cream-dark); cursor:pointer; border:none; transition:background .3s,transform .3s; }
+        .t-dot.active { background:var(--espresso); transform:scale(1.35); }
+
+        /* ─── LOCATION ─── */
+        .location { padding:128px 0; background:var(--white); }
+        .location-inner { max-width:1200px; margin:0 auto; padding:0 48px; display:grid; grid-template-columns:1fr 1fr; gap:80px; align-items:start; }
+        .location-rows { display:flex; flex-direction:column; }
+        .location-row { display:grid; grid-template-columns:72px 1fr; padding:26px 0; border-bottom:1px solid var(--line); }
+        .location-row:first-child { border-top:1px solid var(--line); }
+        .location-row-label { font-family:var(--sans); font-size:10px; letter-spacing:2.5px; text-transform:uppercase; color:var(--gold); padding-top:3px; }
+        .location-row-value { font-family:var(--serif); font-size:19px; font-weight:300; color:var(--text-mid); line-height:1.65; }
+        .location-cta { margin-top:40px; }
+
+        .location-photo { height:480px; overflow:hidden; }
+        .location-photo img { width:100%; height:100%; object-fit:cover; object-position:center 30%; display:block; }
+
+        /* ─── CONTACT ─── */
+        .contact { padding:128px 0; background:var(--cream); }
+        .contact-inner { max-width:580px; margin:0 auto; padding:0 48px; }
+        .form { margin-top:56px; }
+        .form-row { margin-bottom:38px; }
+        .form-label { display:block; font-family:var(--sans); font-size:10px; letter-spacing:3px; text-transform:uppercase; color:var(--text-lt); margin-bottom:10px; }
+        .form-field { width:100%; background:none; border:none; border-bottom:1px solid var(--line); padding:10px 0; font-family:var(--serif); font-size:19px; color:var(--espresso); transition:border-color .3s; outline:none; }
+        .form-field:focus { border-color:var(--espresso); }
+        .form-field::placeholder { color:var(--text-lt); font-size:16px; font-style:italic; }
+        textarea.form-field { resize:none; min-height:100px; }
+        .form-submit { display:block; width:100%; margin-top:48px; padding:16px; background:var(--espresso); color:var(--cream); border:none; font-family:var(--sans); font-size:11px; letter-spacing:3px; text-transform:uppercase; cursor:pointer; transition:background .3s; }
+        .form-submit:hover { background:var(--brown); }
+
+        /* ─── FOOTER ─── */
+        .footer { background:var(--espresso); padding:88px 0 44px; }
+        .footer-inner { max-width:1200px; margin:0 auto; padding:0 48px; }
+        .footer-top { display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:64px; padding-bottom:64px; border-bottom:1px solid rgba(255,255,255,.07); margin-bottom:40px; }
+        .footer-logo img { height:24px; filter:invert(1); margin-bottom:20px; display:block; }
+        .footer-desc { font-family:var(--sans); font-size:14px; color:rgba(250,247,242,.42); line-height:1.85; margin-bottom:28px; }
+        .footer-socials { display:flex; gap:22px; }
+        .footer-social { font-family:var(--sans); font-size:10px; letter-spacing:2px; text-transform:uppercase; color:rgba(250,247,242,.38); text-decoration:none; transition:color .3s; }
+        .footer-social:hover { color:var(--gold); }
+        .footer-col-title { font-family:var(--sans); font-size:10px; letter-spacing:3px; text-transform:uppercase; color:rgba(250,247,242,.35); margin-bottom:24px; }
+        .footer-links { list-style:none; }
+        .footer-links li { margin-bottom:13px; }
+        .footer-links a { font-family:var(--sans); font-size:14px; color:rgba(250,247,242,.58); text-decoration:none; transition:color .3s; }
+        .footer-links a:hover { color:var(--cream); }
+        .footer-bottom { text-align:center; font-family:var(--sans); font-size:12px; color:rgba(250,247,242,.28); letter-spacing:.5px; }
+
+        /* ─── SCROLL TOP ─── */
+        .scroll-top { position:fixed; bottom:32px; right:32px; width:44px; height:44px; background:var(--espresso); color:var(--cream); display:flex; align-items:center; justify-content:center; cursor:pointer; opacity:0; visibility:hidden; transition:all .3s; z-index:999; font-size:18px; }
+        .scroll-top.visible { opacity:1; visibility:visible; }
+        .scroll-top:hover { background:var(--brown); }
+
+        /* ─── REVEAL ─── */
+        .reveal { opacity:0; transform:translateY(28px); transition:opacity .95s var(--ease),transform .95s var(--ease); }
+        .reveal.in { opacity:1; transform:translateY(0); }
+
+        /* ─── RESPONSIVE ─── */
+        @media (max-width:1024px) {
+            .pillars { grid-template-columns:repeat(2,1fr); }
+            .pillar { border-bottom:1px solid var(--line); }
+            .pillar:nth-child(2) { border-right:none; }
+            .pillar:nth-child(3) { border-bottom:none; }
+            .pillar:nth-child(4) { border-right:none; border-bottom:none; }
+            .gallery-grid { grid-template-columns:repeat(2,1fr); grid-template-rows:auto; }
+            .gallery-cell { height:280px; }
+            .gallery-cell:nth-child(1), .gallery-cell:nth-child(4) { grid-column:span 1; }
+            .footer-top { grid-template-columns:1fr 1fr; gap:40px; }
+            .location-inner { grid-template-columns:1fr; gap:48px; }
+            .location-photo { height:320px; }
+        }
+        @media (max-width:768px) {
+            .nav-inner { padding:0 24px; }
+            .nav-links {
+                position:fixed; top:0; right:-100%; width:280px; height:100vh;
+                background:var(--cream); flex-direction:column; align-items:flex-start;
+                padding:88px 32px 32px; gap:28px; list-style:none;
+                box-shadow:-4px 0 40px rgba(28,14,8,.07);
+                transition:right .4s var(--ease); z-index:999;
             }
-            
-            .nav-menu {
-                position: fixed;
-                top: 0;
-                right: -100%;
-                width: 280px;
-                height: 100vh;
-                background: var(--white);
-                flex-direction: column;
-                align-items: flex-start;
-                padding: 80px 30px 30px;
-                gap: 25px;
-                transition: var(--transition-smooth);
-                box-shadow: -5px 0 30px var(--shadow);
-                z-index: 999;
-            }
-            
-            .nav-menu.active {
-                right: 0;
-            }
-            
-            .mobile-menu-toggle {
-                display: flex;
-            }
-            
-            .cta-btn {
-                width: 100%;
-                text-align: center;
-                justify-content: center;
-            }
-            
-            .hero-buttons {
-                flex-direction: column;
-                width: 100%;
-            }
-            
-            .btn {
-                width: 100%;
-                justify-content: center;
-            }
-            
-            .menu-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .gallery-grid {
-                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            }
-            
-            .location-container {
-                grid-template-columns: 1fr;
-            }
-            
-            .testimonial-card {
-                padding: 35px 25px;
-            }
-            
-            .contact-form {
-                padding: 35px 25px;
-            }
-            
-            .footer-content {
-                grid-template-columns: 1fr;
-                gap: 30px;
-            }
-            
-            .about-image {
-                height: 300px;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .nav-container {
-                padding: 0 15px;
-            }
-            
-            .filter-buttons {
-                gap: 10px;
-            }
-            
-            .filter-btn {
-                padding: 10px 20px;
-                font-size: 13px;
-            }
-            
-            .scroll-top {
-                bottom: 20px;
-                right: 20px;
-                width: 50px;
-                height: 50px;
-            }
-        }
-        
-        @media (min-width: 768px) {
-            .hero-container {
-                grid-template-columns: 1fr;
-            }
-            
-            .about-container {
-                grid-template-columns: 1fr 1fr;
-                gap: 80px;
-            }
-            
-            .location-container {
-                grid-template-columns: 1fr 1fr;
-            }
-        }
-        
-        @media (min-width: 1024px) {
-            :root {
-                --section-padding: 100px;
-            }
-            
-            .nav-container {
-                padding: 0 40px;
-            }
+            .nav-links.open { right:0; }
+            .nav-links a { font-size:14px; }
+            .hamburger { display:flex; }
+            .stats-inner { grid-template-columns:repeat(2,1fr); }
+            .stat:nth-child(2) { border-right:none; }
+            .stat:nth-child(3),
+            .stat:nth-child(4) { border-top:1px solid rgba(255,255,255,.08); }
+            .stat:nth-child(4) { border-right:none; }
+            .pillars { grid-template-columns:1fr; }
+            .pillar { border-right:none; border-bottom:1px solid var(--line); }
+            .pillar:last-child { border-bottom:none; }
+            .gallery-grid { grid-template-columns:1fr; grid-template-rows:auto; }
+            .gallery-cell { height:260px; }
+            .nav-logo img { height:48px; }
+            .footer-top { grid-template-columns:1fr; gap:40px; }
+            .menu-tabs { flex-wrap:wrap; }
+            .tab { padding:10px 16px; }
+            .hero-ctas { flex-direction:column; align-items:center; }
+            .btn-outline, .btn-ghost { width:220px; text-align:center; }
+            .photo-strip { height:300px; }
+            .about-inner, .menu-inner, .gallery-inner, .testimonials-inner,
+            .location-inner, .contact-inner, .footer-inner, .stats-inner, .nav-inner { padding-left:24px; padding-right:24px; }
+            .about, .menu-sec, .gallery, .testimonials, .location, .contact, .footer { padding-top:88px; padding-bottom:88px; }
         }
     </style>
 </head>
 <body>
-    <!-- ====================================
-         LOADING SCREEN
-         Elegant "krema." branding
-    ==================================== -->
-    <div class="loading-screen" id="loadingScreen">
-        <div class="loading-logo">
-            <span class="loading-logo-text">
-                krema.<span class="loading-logo-dot">.</span>
-            </span>
-            <div class="loading-subtitle">Premium Coffee</div>
+
+<!-- ── LOADER ── -->
+<div class="loader" id="loader">
+    <div class="loader-inner">
+        <img class="loader-logo" src="kremalogo.png" alt="krema.">
+        <div class="loader-line"></div>
+        <div class="loader-sub">Artisan Cafe &middot; Est. 2012</div>
+    </div>
+</div>
+
+<!-- ── NAV ── -->
+<nav class="nav" id="nav">
+    <div class="nav-inner">
+        <a href="#home" class="nav-logo"><img src="kremalogo.png" alt="krema."></a>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="#about">About</a></li>
+            <li><a href="#menu">Menu</a></li>
+            <li><a href="#gallery">Gallery</a></li>
+            <li><a href="#testimonials">Reviews</a></li>
+            <li><a href="#location">Visit</a></li>
+        </ul>
+        <div class="hamburger" id="hamburger">
+            <span></span><span></span><span></span>
         </div>
     </div>
-    
-    <!-- ====================================
-         NAVIGATION
-         📸 Logo Image Location: See CSS comments above
-    ==================================== -->
-    <nav class="navbar" id="navbar">
-        <div class="nav-container">
-            <!-- TO ADD LOGO IMAGE: See CSS comments in .logo section -->
-            <a href="#" class="logo">Krema.</a>
-            
-            <ul class="nav-menu" id="navMenu">
-                <li><a href="#home" class="active">Home</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#menu">Menu</a></li>
-                <li><a href="#gallery">Gallery</a></li>
-                <li><a href="#testimonials">Reviews</a></li>
-                <li><a href="#contact" class="cta-btn">Contact Us</a></li>
-            </ul>
-            
-            <div class="mobile-menu-toggle" id="mobileMenuToggle">
-                <span></span>
-                <span></span>
-                <span></span>
+</nav>
+
+<!-- ── HERO ── -->
+<section class="hero" id="home">
+    <div class="hero-inner">
+        <span class="hero-label">Artisan Coffee &middot; Est. 2012</span>
+        <h1 class="hero-title">
+            Where Every Cup<br>
+            Tells a <strong>Story</strong>
+        </h1>
+        <div class="hero-divider">
+            <span class="hero-divider-dot"></span>
+        </div>
+        <p class="hero-sub">
+            Handcrafted beverages, fresh bagels, and homemade pastries.
+            Your perfect daily ritual awaits.
+        </p>
+        <div class="hero-ctas">
+            <a href="#menu" class="btn-outline">Explore Menu</a>
+            <a href="#location" class="btn-ghost">Find Us &rarr;</a>
+        </div>
+    </div>
+</section>
+
+<!-- ── PHOTO STRIP ── -->
+<div class="photo-strip" id="photoStrip">
+    <img src="krema66.jpeg" alt="krema. coffee">
+    <div class="photo-strip-overlay"></div>
+</div>
+
+<!-- ── STATS ── -->
+<section class="stats">
+    <div class="stats-inner">
+        <div class="stat reveal">
+            <div class="stat-num" data-target="15000">0</div>
+            <div class="stat-label">Happy Guests</div>
+        </div>
+        <div class="stat reveal">
+            <div class="stat-num" data-target="12">0</div>
+            <div class="stat-label">Years of Excellence</div>
+        </div>
+        <div class="stat reveal">
+            <div class="stat-num" data-target="50">0</div>
+            <div class="stat-label">Menu Items</div>
+        </div>
+        <div class="stat reveal">
+            <div class="stat-accent">&#9733; 4.9</div>
+            <div class="stat-label">Google Rating</div>
+        </div>
+    </div>
+</section>
+
+<!-- ── ABOUT ── -->
+<section class="about" id="about">
+    <div class="about-inner">
+        <div class="sh reveal">
+            <span class="sh-label">Our Story</span>
+            <h2 class="sh-title">Crafting Moments of<br><strong>Pure Bliss</strong></h2>
+            <div class="sh-div"><span class="sh-dot"></span></div>
+        </div>
+        <div class="about-prose reveal">
+            <p>At krema, we believe great coffee is more than a beverage — it's an experience. Since 2012, we've been dedicated to sourcing the finest beans and crafting each cup with precision and passion.</p>
+            <p>Our cafe is a sanctuary where friends gather, ideas flourish, and every sip transports you somewhere warmer.</p>
+        </div>
+        <div class="pillars reveal">
+            <div class="pillar">
+                <svg class="pillar-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <ellipse cx="24" cy="24" rx="14" ry="9" transform="rotate(-30 24 24)"/>
+                    <path d="M24 15 C18 19 18 29 24 33"/>
+                </svg>
+                <div class="pillar-title">Premium Beans</div>
+                <div class="pillar-text">Ethically sourced from the world's finest coffee regions</div>
+            </div>
+            <div class="pillar">
+                <svg class="pillar-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M14 34 C14 26 20 18 24 16 C28 18 34 26 34 34"/>
+                    <path d="M10 34h28"/><path d="M18 34v4h12v-4"/>
+                    <path d="M24 16v-6"/><path d="M21 13 l3-3 3 3"/>
+                </svg>
+                <div class="pillar-title">Fresh Daily</div>
+                <div class="pillar-text">Baked fresh every morning with love and care</div>
+            </div>
+            <div class="pillar">
+                <svg class="pillar-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="24" cy="16" r="6"/>
+                    <path d="M13 40 C13 33 18 28 24 28 C30 28 35 33 35 40"/>
+                    <path d="M8 24 C12 23 14 20 14 20 S13 26 8 27"/>
+                    <path d="M40 24 C36 23 34 20 34 20 S35 26 40 27"/>
+                </svg>
+                <div class="pillar-title">Expert Baristas</div>
+                <div class="pillar-text">Trained professionals who craft perfection in every cup</div>
+            </div>
+            <div class="pillar">
+                <svg class="pillar-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M8 42 V22 L24 8 L40 22 V42 H8Z"/>
+                    <path d="M18 42 V30 H30 V42"/>
+                    <path d="M24 8 V4"/>
+                </svg>
+                <div class="pillar-title">Cozy Atmosphere</div>
+                <div class="pillar-text">A warm, inviting space that feels like home</div>
             </div>
         </div>
-    </nav>
-    
-    <!-- ====================================
-         HERO SECTION
-    ==================================== -->
-    <section class="hero" id="home">
-        <div class="hero-container">
-            <div class="hero-content">
-                <span class="hero-badge">☕ Premium Coffee Experience</span>
-                <h1 class="hero-title">
-                    Where Every Cup<br>
-                    Tells a <span class="highlight">Story</span>
-                </h1>
-                <p class="hero-subtitle">
-                    Handcrafted beverages, fresh pastries, and a cozy atmosphere. 
-                    Experience the perfect blend of quality and comfort at Krema.
-                </p>
-                <div class="hero-buttons">
-                    <a href="#menu" class="btn btn-primary">
-                        Explore Menu →
-                    </a>
-                    <a href="#location" class="btn btn-secondary">
-                        📍 Find Us
-                    </a>
+    </div>
+</section>
+
+<!-- ── MENU ── -->
+<section class="menu-sec" id="menu">
+    <div class="menu-inner">
+        <div class="sh reveal">
+            <span class="sh-label">Our Menu</span>
+            <h2 class="sh-title"><strong>Delicious</strong> Offerings</h2>
+            <div class="sh-div"><span class="sh-dot"></span></div>
+            <p class="sh-sub">From artisan coffee to fresh-baked treats</p>
+        </div>
+
+        <div class="menu-tabs reveal">
+            <button class="tab active" data-tab="coffee">Coffee</button>
+            <button class="tab" data-tab="bagels">Bagels</button>
+            <button class="tab" data-tab="food">Food</button>
+            <button class="tab" data-tab="desserts">Desserts</button>
+        </div>
+
+        <div class="menu-list active" id="tab-coffee">
+            <div class="menu-row">
+                <div class="menu-row-left">
+                    <div class="menu-row-name">Espresso <span class="menu-tag">Popular</span></div>
+                    <div class="menu-row-desc">Rich, bold shot of pure coffee perfection</div>
                 </div>
+                <div class="menu-row-dots"></div>
+                <div class="menu-row-price">$3.50</div>
+            </div>
+            <div class="menu-row">
+                <div class="menu-row-left">
+                    <div class="menu-row-name">Cappuccino</div>
+                    <div class="menu-row-desc">Creamy espresso with velvety steamed milk</div>
+                </div>
+                <div class="menu-row-dots"></div>
+                <div class="menu-row-price">$4.50</div>
+            </div>
+            <div class="menu-row">
+                <div class="menu-row-left">
+                    <div class="menu-row-name">Latte <span class="menu-tag">Best Seller</span></div>
+                    <div class="menu-row-desc">Smooth espresso with silky steamed milk</div>
+                </div>
+                <div class="menu-row-dots"></div>
+                <div class="menu-row-price">$4.75</div>
+            </div>
+            <div class="menu-row">
+                <div class="menu-row-left">
+                    <div class="menu-row-name">Flat White</div>
+                    <div class="menu-row-desc">Velvety microfoam over a double ristretto</div>
+                </div>
+                <div class="menu-row-dots"></div>
+                <div class="menu-row-price">$4.75</div>
+            </div>
+            <div class="menu-row">
+                <div class="menu-row-left">
+                    <div class="menu-row-name">Cold Brew</div>
+                    <div class="menu-row-desc">12-hour slow-steeped, served over ice</div>
+                </div>
+                <div class="menu-row-dots"></div>
+                <div class="menu-row-price">$5.50</div>
             </div>
         </div>
-    </section>
-    
-    <!-- ====================================
-         STATS SECTION
-    ==================================== -->
-    <section class="stats">
-        <div class="stats-container">
-            <div class="stat-item reveal">
-                <div class="stat-number" data-target="15000">0</div>
-                <div class="stat-label">Happy Customers</div>
+
+        <div class="menu-list" id="tab-bagels">
+            <div class="menu-row">
+                <div class="menu-row-left">
+                    <div class="menu-row-name">Classic Bagel</div>
+                    <div class="menu-row-desc">Fresh-baked bagel with cream cheese</div>
+                </div>
+                <div class="menu-row-dots"></div>
+                <div class="menu-row-price">$3.00</div>
             </div>
-            <div class="stat-item reveal">
-                <div class="stat-number" data-target="12">0</div>
-                <div class="stat-label">Years of Excellence</div>
+            <div class="menu-row">
+                <div class="menu-row-left">
+                    <div class="menu-row-name">Everything Bagel <span class="menu-tag">Popular</span></div>
+                    <div class="menu-row-desc">Sesame, poppy, garlic & onion</div>
+                </div>
+                <div class="menu-row-dots"></div>
+                <div class="menu-row-price">$3.50</div>
             </div>
-            <div class="stat-item reveal">
-                <div class="stat-number" data-target="50">0</div>
-                <div class="stat-label">Menu Items</div>
-            </div>
-            <div class="stat-item reveal">
-                <div class="stat-number" data-target="4.9">0</div>
-                <div class="stat-label">⭐ Rating</div>
-            </div>
-        </div>
-    </section>
-    
-    <!-- ====================================
-         ABOUT SECTION
-         📸 Image Location: Replace .about-image-placeholder
-    ==================================== -->
-    <section class="about" id="about">
-        <div class="about-container">
-            <div class="about-content reveal">
-                <h2>Crafting Moments of <span class="highlight">Pure Bliss</span></h2>
-                <p>
-                    At Krema, we believe that great coffee is more than just a beverage—it's an experience. 
-                    Since 2012, we've been dedicated to sourcing the finest beans and crafting each cup with 
-                    precision and passion.
-                </p>
-                <p>
-                    Our cozy cafe is a sanctuary where friends gather, ideas flourish, and every sip transports 
-                    you to coffee paradise. From our signature espresso to handcrafted pastries, every item on 
-                    our menu is made with love and the finest ingredients.
-                </p>
-            </div>
-            
-            <!-- 📸 ADD YOUR ABOUT IMAGE HERE 
-                 Replace the placeholder div with:
-                 <div class="about-image reveal">
-                     <img src="images/about-cafe.jpg" alt="Krema Cafe Interior">
-                 </div>
-                 
-                 Recommended: Interior shot, coffee being made, or team photo
-                 Dimensions: Min 800x600px
-            -->
-            <div class="about-image reveal">
-               <img src="krema66.jpeg" alt="Krema Cafe Interior">
+            <div class="menu-row">
+                <div class="menu-row-left">
+                    <div class="menu-row-name">Smoked Salmon Bagel <span class="menu-tag">Signature</span></div>
+                    <div class="menu-row-desc">Wild salmon, cream cheese, capers & dill</div>
+                </div>
+                <div class="menu-row-dots"></div>
+                <div class="menu-row-price">$7.50</div>
             </div>
         </div>
-        
-        <div class="about-container">
-            <div class="features-grid">
-                <div class="feature-item reveal">
-                    <span class="feature-icon">☕</span>
-                    <h3>Premium Beans</h3>
-                    <p>Ethically sourced from the world's finest coffee regions</p>
+
+        <div class="menu-list" id="tab-food">
+            <div class="menu-row">
+                <div class="menu-row-left">
+                    <div class="menu-row-name">Pancakes <span class="menu-tag">Weekend Special</span></div>
+                    <div class="menu-row-desc">Fluffy stack with fresh berries & maple syrup</div>
                 </div>
-                <div class="feature-item reveal">
-                    <span class="feature-icon">🥐</span>
-                    <h3>Fresh Daily</h3>
-                    <p>Baked fresh every morning with love and care</p>
+                <div class="menu-row-dots"></div>
+                <div class="menu-row-price">$9.00</div>
+            </div>
+            <div class="menu-row">
+                <div class="menu-row-left">
+                    <div class="menu-row-name">Turkey Club</div>
+                    <div class="menu-row-desc">Turkey, bacon, lettuce, tomato, mayo</div>
                 </div>
-                <div class="feature-item reveal">
-                    <span class="feature-icon">👨‍🍳</span>
-                    <h3>Expert Baristas</h3>
-                    <p>Trained professionals who craft perfection in every cup</p>
+                <div class="menu-row-dots"></div>
+                <div class="menu-row-price">$8.50</div>
+            </div>
+            <div class="menu-row">
+                <div class="menu-row-left">
+                    <div class="menu-row-name">Avocado Toast</div>
+                    <div class="menu-row-desc">Sourdough, smashed avocado, chilli flakes, sea salt</div>
                 </div>
-                <div class="feature-item reveal">
-                    <span class="feature-icon">🏡</span>
-                    <h3>Cozy Atmosphere</h3>
-                    <p>A warm, inviting space that feels like home</p>
-                </div>
+                <div class="menu-row-dots"></div>
+                <div class="menu-row-price">$9.00</div>
             </div>
         </div>
-    </section>
-    
-    <!-- ====================================
-         MENU SECTION
-         📸 Image Location: Replace .menu-item-image-placeholder in each item
-    ==================================== -->
-    <section class="menu" id="menu">
-        <div class="menu-container">
-            <div class="section-header">
-                <span class="section-badge">OUR MENU</span>
-                <h2 class="section-title">Delicious Offerings</h2>
-                <p class="section-subtitle">
-                    From artisan coffee to fresh-baked treats, explore our carefully curated menu
-                </p>
+
+        <div class="menu-list" id="tab-desserts">
+            <div class="menu-row">
+                <div class="menu-row-left">
+                    <div class="menu-row-name">Cheesecake <span class="menu-tag">Signature</span></div>
+                    <div class="menu-row-desc">Creamy New York style with blueberries & walnuts</div>
+                </div>
+                <div class="menu-row-dots"></div>
+                <div class="menu-row-price">$5.50</div>
             </div>
-            
-            <div class="filter-buttons">
-                <button class="filter-btn active" data-filter="all">All</button>
-                <button class="filter-btn" data-filter="coffee">Coffee</button>
-                <button class="filter-btn" data-filter="bagels">Bagels</button>
-                <button class="filter-btn" data-filter="sandwiches">Sandwiches</button>
-                <button class="filter-btn" data-filter="desserts">Desserts</button>
+            <div class="menu-row">
+                <div class="menu-row-left">
+                    <div class="menu-row-name">Chocolate Chip Cookie</div>
+                    <div class="menu-row-desc">Gooey dark chocolate, baked to order</div>
+                </div>
+                <div class="menu-row-dots"></div>
+                <div class="menu-row-price">$3.50</div>
             </div>
-            
-            <div class="menu-grid">
-                <!-- Coffee Items -->
-                <!-- 📸 Replace placeholder with: <img src="images/menu/espresso.jpg" alt="Espresso"> -->
-                <div class="menu-item reveal" data-category="coffee">
-                    <div class="menu-item-image">
-                        <div class="menu-item-image-placeholder">☕</div>
-                        <!-- <img src="images/menu/espresso.jpg" alt="Espresso"> -->
-                    </div>
-                    <div class="menu-item-content">
-                        <div class="menu-item-header">
-                            <h3 class="menu-item-title">Espresso</h3>
-                            <span class="menu-item-price">$3.50</span>
-                        </div>
-                        <p class="menu-item-description">
-                            Rich, bold shot of pure coffee perfection
-                        </p>
-                        <span class="menu-item-badge">Popular</span>
-                    </div>
+            <div class="menu-row">
+                <div class="menu-row-left">
+                    <div class="menu-row-name">Almond Crumble</div>
+                    <div class="menu-row-desc">Warm butter crumble with toasted almond slivers</div>
                 </div>
-                
-                <!-- 📸 ADD IMAGE: images/menu/cappuccino.jpg -->
-                <div class="menu-item reveal" data-category="coffee">
-                    <div class="menu-item-image">
-                        <div class="menu-item-image-placeholder">🥤</div>
-                    </div>
-                    <div class="menu-item-content">
-                        <div class="menu-item-header">
-                            <h3 class="menu-item-title">Cappuccino</h3>
-                            <span class="menu-item-price">$4.50</span>
-                        </div>
-                        <p class="menu-item-description">
-                            Creamy espresso with velvety steamed milk
-                        </p>
-                    </div>
-                </div>
-                
-                <!-- 📸 ADD IMAGE: images/menu/latte.jpg -->
-                <div class="menu-item reveal" data-category="coffee">
-                    <div class="menu-item-image">
-                        <div class="menu-item-image-placeholder">🍵</div>
-                    </div>
-                    <div class="menu-item-content">
-                        <div class="menu-item-header">
-                            <h3 class="menu-item-title">Latte</h3>
-                            <span class="menu-item-price">$4.75</span>
-                        </div>
-                        <p class="menu-item-description">
-                            Smooth espresso with silky steamed milk
-                        </p>
-                        <span class="menu-item-badge">Best Seller</span>
-                    </div>
-                </div>
-                
-                <!-- Bagels -->
-                <!-- 📸 ADD IMAGE: images/menu/classic-bagel.jpg -->
-                <div class="menu-item reveal" data-category="bagels">
-                    <div class="menu-item-image">
-                        <div class="menu-item-image-placeholder">🥯</div>
-                    </div>
-                    <div class="menu-item-content">
-                        <div class="menu-item-header">
-                            <h3 class="menu-item-title">Classic Bagel</h3>
-                            <span class="menu-item-price">$3.00</span>
-                        </div>
-                        <p class="menu-item-description">
-                            Fresh-baked bagel with cream cheese
-                        </p>
-                    </div>
-                </div>
-                
-                <!-- 📸 ADD IMAGE: images/menu/everything-bagel.jpg -->
-                <div class="menu-item reveal" data-category="bagels">
-                    <div class="menu-item-image">
-                        <div class="menu-item-image-placeholder">🧀</div>
-                    </div>
-                    <div class="menu-item-content">
-                        <div class="menu-item-header">
-                            <h3 class="menu-item-title">Everything Bagel</h3>
-                            <span class="menu-item-price">$3.50</span>
-                        </div>
-                        <p class="menu-item-description">
-                            Loaded with sesame, poppy, garlic & onion
-                        </p>
-                        <span class="menu-item-badge">Popular</span>
-                    </div>
-                </div>
-                
-                <!-- Sandwiches -->
-                <!-- 📸 ADD IMAGE: images/menu/turkey-club.jpg -->
-                <div class="menu-item reveal" data-category="sandwiches">
-                    <div class="menu-item-image">
-                        <div class="menu-item-image-placeholder">🥪</div>
-                    </div>
-                    <div class="menu-item-content">
-                        <div class="menu-item-header">
-                            <h3 class="menu-item-title">Turkey Club</h3>
-                            <span class="menu-item-price">$8.50</span>
-                        </div>
-                        <p class="menu-item-description">
-                            Turkey, bacon, lettuce, tomato, mayo
-                        </p>
-                    </div>
-                </div>
-                
-                <!-- 📸 ADD IMAGE: images/menu/veggie-wrap.jpg -->
-                <div class="menu-item reveal" data-category="sandwiches">
-                    <div class="menu-item-image">
-                        <div class="menu-item-image-placeholder">🌯</div>
-                    </div>
-                    <div class="menu-item-content">
-                        <div class="menu-item-header">
-                            <h3 class="menu-item-title">Veggie Wrap</h3>
-                            <span class="menu-item-price">$7.50</span>
-                        </div>
-                        <p class="menu-item-description">
-                            Fresh vegetables with hummus spread
-                        </p>
-                    </div>
-                </div>
-                
-                <!-- Desserts -->
-                <!-- 📸 ADD IMAGE: images/menu/cheesecake.jpg -->
-                <div class="menu-item reveal" data-category="desserts">
-                    <div class="menu-item-image">
-                        <div class="menu-item-image-placeholder">🍰</div>
-                    </div>
-                    <div class="menu-item-content">
-                        <div class="menu-item-header">
-                            <h3 class="menu-item-title">Cheesecake</h3>
-                            <span class="menu-item-price">$5.50</span>
-                        </div>
-                        <p class="menu-item-description">
-                            Creamy New York style cheesecake
-                        </p>
-                        <span class="menu-item-badge">Signature</span>
-                    </div>
-                </div>
-                
-                <!-- 📸 ADD IMAGE: images/menu/croissant.jpg -->
-                <div class="menu-item reveal" data-category="desserts">
-                    <div class="menu-item-image">
-                        <div class="menu-item-image-placeholder">🧁</div>
-                    </div>
-                    <div class="menu-item-content">
-                        <div class="menu-item-header">
-                            <h3 class="menu-item-title">Croissant</h3>
-                            <span class="menu-item-price">$4.00</span>
-                        </div>
-                        <p class="menu-item-description">
-                            Buttery, flaky French pastry
-                        </p>
-                    </div>
-                </div>
+                <div class="menu-row-dots"></div>
+                <div class="menu-row-price">$4.50</div>
             </div>
         </div>
-    </section>
-    
-    <!-- ====================================
-         GALLERY SECTION
-         📸 Image Locations: Replace each .gallery-item-placeholder
-         Recommended: 6-12 images of coffee, food, interior, atmosphere
-    ==================================== -->
-    <section class="gallery" id="gallery">
-        <div class="gallery-container">
-            <div class="section-header">
-                <span class="section-badge">GALLERY</span>
-                <h2 class="section-title">Moments at Krema.
-                </h2>
-                <p class="section-subtitle">
-                    A glimpse into our cozy cafe and delicious offerings
-                </p>
+    </div>
+</section>
+
+<!-- ── GALLERY ── -->
+<section class="gallery" id="gallery">
+    <div class="gallery-inner">
+        <div class="sh reveal">
+            <span class="sh-label">Gallery</span>
+            <h2 class="sh-title"><em>Moments</em> at krema.</h2>
+            <div class="sh-div"><span class="sh-dot"></span></div>
+            <p class="sh-sub">A glimpse into our world</p>
+        </div>
+        <div class="gallery-grid reveal">
+            <!-- Cell 1: spans 2 cols — latte art (overhead/circular, works wide) -->
+            <div class="gallery-cell">
+                <img src="krema66.jpeg" alt="Latte art" style="object-position:center center;">
+                <div class="gallery-cell-overlay"></div>
+                <div class="gallery-cell-label">Morning Brew</div>
             </div>
-            
-            <div class="gallery-grid">
-                <!-- 📸 Gallery Image 1: Coffee/Espresso shot -->
-                <div class="gallery-item reveal">
-                    <div class="gallery-item-placeholder">☕</div>
-                    <!-- <img src="images/gallery/coffee-1.jpg" alt="Fresh Brew"> -->
-                    <div class="gallery-overlay">
-                        <h3 class="gallery-title">Fresh Brew</h3>
-                        <p class="gallery-category">Coffee</p>
-                    </div>
-                </div>
-                
-                <!-- 📸 Gallery Image 2: Pastries/Croissants -->
-                <div class="gallery-item reveal">
-                    <img src="krema3.jpeg" alt="Morning Pastries">
-                    <div class="gallery-overlay">
-                        <h3 class="gallery-title">Morning Pastries</h3>
-                        <p class="gallery-category">Baked Goods</p>
-                    </div>
-                </div>
-                
-                <!-- 📸 Gallery Image 3: Desserts/Cakes -->
-                <div class="gallery-item reveal">
-                   
-                    <img src="krema4.jpeg" alt="Sweet Treats"> 
-                    <div class="gallery-overlay">
-                        <h3 class="gallery-title">Sweet Treats</h3>
-                        <p class="gallery-category">Desserts</p>
-                    </div>
-                </div>
-                
-                <!-- 📸 Gallery Image 4: Bagels -->
-                <div class="gallery-item reveal">
-                     <img src="krema1.jpeg" alt="Fresh Bagels"> 
-                    <div class="gallery-overlay">
-                        <h3 class="gallery-title">Fresh Bagels</h3>
-                        <p class="gallery-category">Breakfast</p>
-                    </div>
-                </div>
-                
-                <!-- 📸 Gallery Image 5: Iced drinks -->
-                <div class="gallery-item reveal">
-                    <div class="gallery-item-placeholder">🥤</div>
-                    <!-- <img src="images/gallery/iced-drinks.jpg" alt="Iced Drinks"> -->
-                    <div class="gallery-overlay">
-                        <h3 class="gallery-title">Iced Drinks</h3>
-                        <p class="gallery-category">Beverages</p>
-                    </div>
-                </div>
-                
-                <!-- 📸 Gallery Image 6: Cafe interior/atmosphere -->
-                <div class="gallery-item reveal">
-                    <div class="gallery-item-placeholder">🧁</div>
-                    <!-- <img src="images/gallery/interior.jpg" alt="Cozy Interior"> -->
-                    <div class="gallery-overlay">
-                        <h3 class="gallery-title">Cozy Space</h3>
-                        <p class="gallery-category">Atmosphere</p>
-                    </div>
-                </div>
+            <!-- Cell 2: 1 col — almond crumble (close-up texture, works in any frame) -->
+            <div class="gallery-cell">
+                <img src="krema2.jpeg" alt="Almond crumble" style="object-position:center center;">
+                <div class="gallery-cell-overlay"></div>
+                <div class="gallery-cell-label">Pastry Selection</div>
+            </div>
+            <!-- Cell 3: 1 col — cookies (portrait, center top shows the top cookie) -->
+            <div class="gallery-cell">
+                <img src="krema4.jpeg" alt="Chocolate chip cookies" style="object-position:center top;">
+                <div class="gallery-cell-overlay"></div>
+                <div class="gallery-cell-label">Freshly Baked</div>
+            </div>
+            <!-- Cell 4: spans 2 cols — cheesecake (overhead, works wide) -->
+            <div class="gallery-cell">
+                <img src="krema6.jpeg" alt="Cheesecake" style="object-position:center center;">
+                <div class="gallery-cell-overlay"></div>
+                <div class="gallery-cell-label">Sweet Treats</div>
+            </div>
+            <!-- Cell 5: 1 col — salmon bagel (center, works well) -->
+            <div class="gallery-cell">
+                <img src="krema1.jpeg" alt="Salmon bagel" style="object-position:center 60%;">
+                <div class="gallery-cell-overlay"></div>
+                <div class="gallery-cell-label">Signature Bagel</div>
+            </div>
+            <!-- Cell 6: 1 col — pancakes (center works) -->
+            <div class="gallery-cell">
+                <img src="krema3.jpeg" alt="Pancakes" style="object-position:center top;">
+                <div class="gallery-cell-overlay"></div>
+                <div class="gallery-cell-label">Weekend Brunch</div>
             </div>
         </div>
-    </section>
-    
-    <!-- ====================================
-         TESTIMONIALS SECTION
-         📸 Avatar Images: Replace .author-avatar-placeholder
-    ==================================== -->
-    <section class="testimonials" id="testimonials">
-        <div class="testimonials-container">
-            <div class="section-header">
-                <span class="section-badge">TESTIMONIALS</span>
-                <h2 class="section-title">What Our Guests Say</h2>
-                <p class="section-subtitle">
-                    Real stories from our wonderful community
-                </p>
+    </div>
+</section>
+
+<!-- ── TESTIMONIALS ── -->
+<section class="testimonials" id="testimonials">
+    <div class="testimonials-inner">
+        <div class="sh reveal">
+            <span class="sh-label">Reviews</span>
+            <h2 class="sh-title">What Our <strong>Guests</strong> Say</h2>
+            <div class="sh-div"><span class="sh-dot"></span></div>
+        </div>
+        <div class="t-block active reveal">
+            <span class="t-quote">&ldquo;</span>
+            <p class="t-text">The best coffee in town. The atmosphere is so cozy and welcoming, and their pastries are absolutely divine. It's my favourite spot to work and unwind.</p>
+            <div class="t-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+            <div class="t-name">Sarah Johnson</div>
+            <div class="t-role">Regular Customer</div>
+        </div>
+        <div class="t-block">
+            <span class="t-quote">&ldquo;</span>
+            <p class="t-text">krema. has become my daily ritual. The baristas know exactly how I like my cappuccino, and their bagels are always fresh. Couldn't ask for more.</p>
+            <div class="t-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+            <div class="t-name">Michael Chen</div>
+            <div class="t-role">Coffee Enthusiast</div>
+        </div>
+        <div class="t-block">
+            <span class="t-quote">&ldquo;</span>
+            <p class="t-text">A hidden gem. The quality of everything from the coffee to the sandwiches is outstanding. Plus, the staff is incredibly warm. Highly recommended.</p>
+            <div class="t-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+            <div class="t-name">Emily Rodriguez</div>
+            <div class="t-role">Food Critic</div>
+        </div>
+        <div class="t-dots">
+            <button class="t-dot active" data-slide="0"></button>
+            <button class="t-dot" data-slide="1"></button>
+            <button class="t-dot" data-slide="2"></button>
+        </div>
+    </div>
+</section>
+
+<!-- ── LOCATION ── -->
+<section class="location" id="location">
+    <div class="location-inner">
+        <div class="location-info">
+            <div class="sh left reveal">
+                <span class="sh-label">Come Visit</span>
+                <h2 class="sh-title"><em>Find</em> Us</h2>
+                <div class="sh-div"><span class="sh-dot"></span></div>
             </div>
-            
-            <div class="testimonials-slider">
-                <!-- Testimonial 1 -->
-                <div class="testimonial-card active">
-                    <div class="quote-icon">"</div>
-                    <p class="testimonial-text">
-                        "The best coffee in town! The atmosphere is so cozy and welcoming, 
-                        and their pastries are absolutely divine. It's my favorite spot to work 
-                        and unwind."
-                    </p>
-                    <div class="testimonial-author">
-                        <!-- 📸 ADD CUSTOMER PHOTO: images/testimonials/customer-1.jpg -->
-                        <div class="author-avatar">
-                            <div class="author-avatar-placeholder">👩</div>
-                            <!-- <img src="images/testimonials/customer-1.jpg" alt="Sarah Johnson"> -->
-                        </div>
-                        <div class="author-info">
-                            <h4>Sarah Johnson</h4>
-                            <p>Regular Customer</p>
-                        </div>
-                    </div>
-                    <div class="testimonial-rating">★★★★★</div>
+            <div class="location-rows reveal">
+                <div class="location-row">
+                    <span class="location-row-label">Address</span>
+                    <span class="location-row-value">123 Coffee Street<br>Downtown District</span>
                 </div>
-                
-                <!-- Testimonial 2 -->
-                <div class="testimonial-card">
-                    <div class="quote-icon">"</div>
-                    <p class="testimonial-text">
-                        "Krema has become my daily ritual. The baristas know exactly how I like 
-                        my cappuccino, and their bagels are always fresh. Couldn't ask for more!"
-                    </p>
-                    <div class="testimonial-author">
-                        <!-- 📸 ADD CUSTOMER PHOTO: images/testimonials/customer-2.jpg -->
-                        <div class="author-avatar">
-                            <div class="author-avatar-placeholder">👨</div>
-                        </div>
-                        <div class="author-info">
-                            <h4>Michael Chen</h4>
-                            <p>Coffee Enthusiast</p>
-                        </div>
-                    </div>
-                    <div class="testimonial-rating">★★★★★</div>
+                <div class="location-row">
+                    <span class="location-row-label">Phone</span>
+                    <span class="location-row-value">+1 (555) 123-4567</span>
                 </div>
-                
-                <!-- Testimonial 3 -->
-                <div class="testimonial-card">
-                    <div class="quote-icon">"</div>
-                    <p class="testimonial-text">
-                        "A hidden gem! The quality of everything from the coffee to the sandwiches 
-                        is outstanding. Plus, the staff is incredibly friendly. Highly recommend!"
-                    </p>
-                    <div class="testimonial-author">
-                        <!-- 📸 ADD CUSTOMER PHOTO: images/testimonials/customer-3.jpg -->
-                        <div class="author-avatar">
-                            <div class="author-avatar-placeholder">👩‍🦰</div>
-                        </div>
-                        <div class="author-info">
-                            <h4>Emily Rodriguez</h4>
-                            <p>Food Critic</p>
-                        </div>
-                    </div>
-                    <div class="testimonial-rating">★★★★★</div>
+                <div class="location-row">
+                    <span class="location-row-label">Hours</span>
+                    <span class="location-row-value">Mon &ndash; Fri &middot; 7:00 &ndash; 20:00<br>Sat &ndash; Sun &middot; 8:00 &ndash; 21:00</span>
                 </div>
             </div>
-            
-            <div class="slider-nav">
-                <span class="nav-dot active"></span>
-                <span class="nav-dot"></span>
-                <span class="nav-dot"></span>
+            <div class="location-cta reveal">
+                <a href="https://maps.google.com" target="_blank" class="btn-outline">Get Directions</a>
             </div>
         </div>
-    </section>
-    
-    <!-- ====================================
-         LOCATION SECTION
-         📸 Map: Add Google Maps embed or map image
-    ==================================== -->
-    <section class="location" id="location">
-        <div class="location-container">
-            <div class="location-info reveal">
-                <h2>Come Visit Us</h2>
-                <div class="location-details">
-                    <div class="location-item">
-                        <div class="location-icon">📍</div>
-                        <div class="location-item-content">
-                            <h3>Address</h3>
-                            <p>123 Coffee Street<br>Downtown District, City 12345</p>
-                        </div>
-                    </div>
-                    <div class="location-item">
-                        <div class="location-icon">📞</div>
-                        <div class="location-item-content">
-                            <h3>Phone</h3>
-                            <p>+1 (555) 123-4567<br>Call us for reservations</p>
-                        </div>
-                    </div>
-                    <div class="location-item">
-                        <div class="location-icon">⏰</div>
-                        <div class="location-item-content">
-                            <h3>Hours</h3>
-                            <p>Mon-Fri: 7:00 AM - 8:00 PM<br>Sat-Sun: 8:00 AM - 9:00 PM</p>
-                        </div>
-                    </div>
-                </div>
-                <a href="https://maps.google.com" target="_blank" class="btn btn-primary">
-                    Get Directions →
-                </a>
+        <div class="location-photo reveal">
+            <img src="krema3.jpeg" alt="krema. cafe">
+        </div>
+    </div>
+</section>
+
+<!-- ── CONTACT ── -->
+<section class="contact" id="contact">
+    <div class="contact-inner">
+        <div class="sh reveal">
+            <span class="sh-label">Contact</span>
+            <h2 class="sh-title">Get <strong>In Touch</strong></h2>
+            <div class="sh-div"><span class="sh-dot"></span></div>
+            <p class="sh-sub">Have questions? We'd love to hear from you.</p>
+        </div>
+        <form class="form reveal" id="contactForm">
+            <div class="form-row">
+                <label class="form-label" for="name">Your Name</label>
+                <input type="text" id="name" class="form-field" placeholder="Jane Doe" required>
             </div>
-            
-            <!-- 📸 ADD GOOGLE MAPS OR MAP IMAGE 
-                 See CSS comments for instructions -->
-            <div class="location-map reveal">
-                <div class="location-map-placeholder"></div>
-                <span class="map-label">📍 View Map</span>
-                
-                <!-- TO ADD GOOGLE MAPS, replace above with:
-                <iframe 
-                    src="YOUR_GOOGLE_MAPS_EMBED_URL" 
-                    allowfullscreen="" 
-                    loading="lazy">
-                </iframe>
-                -->
+            <div class="form-row">
+                <label class="form-label" for="email">Email Address</label>
+                <input type="email" id="email" class="form-field" placeholder="jane@email.com" required>
+            </div>
+            <div class="form-row">
+                <label class="form-label" for="phone">Phone Number</label>
+                <input type="tel" id="phone" class="form-field" placeholder="+1 555 000 0000">
+            </div>
+            <div class="form-row">
+                <label class="form-label" for="message">Message</label>
+                <textarea id="message" class="form-field" placeholder="Tell us how we can help&hellip;" required></textarea>
+            </div>
+            <button type="submit" class="form-submit">Send Message</button>
+        </form>
+    </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer class="footer">
+    <div class="footer-inner">
+        <div class="footer-top">
+            <div>
+                <div class="footer-logo"><img src="kremalogo.png" alt="krema."></div>
+                <p class="footer-desc">Your neighbourhood cafe serving premium coffee, fresh pastries, and warm hospitality since 2012.</p>
+                <div class="footer-socials">
+                    <a href="#" class="footer-social">Instagram</a>
+                    <a href="#" class="footer-social">Facebook</a>
+                    <a href="#" class="footer-social">WhatsApp</a>
+                </div>
+            </div>
+            <div>
+                <div class="footer-col-title">Explore</div>
+                <ul class="footer-links">
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#menu">Menu</a></li>
+                    <li><a href="#gallery">Gallery</a></li>
+                    <li><a href="#testimonials">Reviews</a></li>
+                </ul>
+            </div>
+            <div>
+                <div class="footer-col-title">Menu</div>
+                <ul class="footer-links">
+                    <li><a href="#menu">Coffee</a></li>
+                    <li><a href="#menu">Bagels</a></li>
+                    <li><a href="#menu">Food</a></li>
+                    <li><a href="#menu">Desserts</a></li>
+                </ul>
+            </div>
+            <div>
+                <div class="footer-col-title">Contact</div>
+                <ul class="footer-links">
+                    <li><a href="#">123 Coffee Street</a></li>
+                    <li><a href="#">+1 (555) 123-4567</a></li>
+                    <li><a href="#">hello@krema.cafe</a></li>
+                    <li><a href="#">Mon &ndash; Sun &middot; 7am &ndash; 9pm</a></li>
+                </ul>
             </div>
         </div>
-    </section>
-    
-    <!-- ====================================
-         CONTACT SECTION
-    ==================================== -->
-    <section class="contact" id="contact">
-        <div class="contact-container">
-            <div class="section-header">
-                <span class="section-badge">CONTACT US</span>
-                <h2 class="section-title">Get In Touch</h2>
-                <p class="section-subtitle">
-                    Have questions? We'd love to hear from you
-                </p>
-            </div>
-            
-            <form class="contact-form" id="contactForm">
-                <div class="form-group">
-                    <label for="name" class="form-label">Your Name</label>
-                    <input type="text" id="name" class="form-input" required placeholder="John Doe">
-                </div>
-                
-                <div class="form-group">
-                    <label for="email" class="form-label">Email Address</label>
-                    <input type="email" id="email" class="form-input" required placeholder="john@example.com">
-                </div>
-                
-                <div class="form-group">
-                    <label for="phone" class="form-label">Phone Number</label>
-                    <input type="tel" id="phone" class="form-input" placeholder="+1 (555) 123-4567">
-                </div>
-                
-                <div class="form-group">
-                    <label for="message" class="form-label">Message</label>
-                    <textarea id="message" class="form-textarea" required placeholder="Tell us how we can help..."></textarea>
-                </div>
-                
-                <button type="submit" class="form-submit">Send Message</button>
-            </form>
+        <div class="footer-bottom">
+            <p>&copy; 2026 krema. All rights reserved.</p>
         </div>
-    </section>
-    
-    <!-- ====================================
-         FOOTER
-    ==================================== -->
-    <footer class="footer">
-        <div class="footer-container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h3>Krema.</h3>
-                    <p>
-                        Your neighborhood cafe serving premium coffee, fresh pastries, 
-                        and warm hospitality since 2012.
-                    </p>
-                    <div class="social-links">
-                        <a href="#" class="social-link">📘</a>
-                        <a href="#" class="social-link">📷</a>
-                        <a href="#" class="social-link">🐦</a>
-                        <a href="#" class="social-link">💬</a>
-                    </div>
-                </div>
-                
-                <div class="footer-section">
-                    <h3>Quick Links</h3>
-                    <a href="#home">Home</a>
-                    <a href="#about">About Us</a>
-                    <a href="#menu">Menu</a>
-                    <a href="#gallery">Gallery</a>
-                </div>
-                
-                <div class="footer-section">
-                    <h3>Menu</h3>
-                    <a href="#menu">Coffee</a>
-                    <a href="#menu">Bagels</a>
-                    <a href="#menu">Sandwiches</a>
-                    <a href="#menu">Desserts</a>
-                </div>
-                
-                <div class="footer-section">
-                    <h3>Contact</h3>
-                    <p>123 Coffee Street</p>
-                    <p>+1 (555) 123-4567</p>
-                    <p>hello@krema.cafe</p>
-                    <p>Mon-Sun: 7AM - 9PM</p>
-                </div>
-            </div>
-            
-            <div class="footer-bottom">
-                <p>&copy; 2026 Krema Cafe. All rights reserved. | Made with ❤️ and ☕</p>
-            </div>
-        </div>
-    </footer>
-    
-    <!-- Scroll to Top Button -->
-    <div class="scroll-top" id="scrollTop">↑</div>
-    
-    <script>
-        // ========================================
-        // LOADING SCREEN
-        // ========================================
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                document.getElementById('loadingScreen').classList.add('hidden');
-            }, 1500);
+    </div>
+</footer>
+
+<div class="scroll-top" id="scrollTop">&#8593;</div>
+
+<script>
+    // Loader
+    window.addEventListener('load', () => setTimeout(() => document.getElementById('loader').classList.add('hidden'), 2000));
+    setTimeout(() => document.getElementById('loader').classList.add('hidden'), 3500);
+
+    // Mobile nav
+    const hamburger = document.getElementById('hamburger');
+    const navLinks  = document.getElementById('navLinks');
+    hamburger.addEventListener('click', () => {
+        hamburger.classList.toggle('open');
+        navLinks.classList.toggle('open');
+    });
+    document.querySelectorAll('.nav-links a').forEach(a => a.addEventListener('click', () => {
+        hamburger.classList.remove('open');
+        navLinks.classList.remove('open');
+    }));
+
+    // Nav scroll + scroll top
+    const nav = document.getElementById('nav');
+    const scrollTopBtn = document.getElementById('scrollTop');
+    window.addEventListener('scroll', () => {
+        nav.classList.toggle('scrolled', window.scrollY > 40);
+        scrollTopBtn.classList.toggle('visible', window.scrollY > 300);
+    });
+    scrollTopBtn.addEventListener('click', () => window.scrollTo({ top:0, behavior:'smooth' }));
+
+    // Active nav link
+    document.addEventListener('scroll', () => {
+        const y = window.pageYOffset;
+        document.querySelectorAll('section[id]').forEach(sec => {
+            if (y >= sec.offsetTop - 130 && y < sec.offsetTop + sec.offsetHeight - 130)
+                document.querySelectorAll('.nav-links a').forEach(a =>
+                    a.classList.toggle('active', a.getAttribute('href') === '#' + sec.id));
         });
-        
-        // Fallback
-        setTimeout(() => {
-            document.getElementById('loadingScreen').classList.add('hidden');
-        }, 2500);
-        
-        // ========================================
-        // MOBILE MENU
-        // ========================================
-        const mobileMenuToggle = document.getElementById('mobileMenuToggle');
-        const navMenu = document.getElementById('navMenu');
-        
-        mobileMenuToggle.addEventListener('click', () => {
-            mobileMenuToggle.classList.toggle('active');
-            navMenu.classList.toggle('active');
-            document.body.style.overflow = navMenu.classList.contains('active') ? 'hidden' : '';
-        });
-        
-        // Close menu when clicking links
-        document.querySelectorAll('.nav-menu a').forEach(link => {
-            link.addEventListener('click', () => {
-                mobileMenuToggle.classList.remove('active');
-                navMenu.classList.remove('active');
-                document.body.style.overflow = '';
-            });
-        });
-        
-        // ========================================
-        // NAVBAR SCROLL EFFECT
-        // ========================================
-        const navbar = document.getElementById('navbar');
-        
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 50) {
-                navbar.classList.add('scrolled');
-            } else {
-                navbar.classList.remove('scrolled');
-            }
-        });
-        
-        // ========================================
-        // ACTIVE NAV LINK
-        // ========================================
-        const sections = document.querySelectorAll('section[id]');
-        const navLinks = document.querySelectorAll('.nav-menu a');
-        
-        function activeNavLink() {
-            const scrollY = window.pageYOffset;
-            
-            sections.forEach(section => {
-                const sectionHeight = section.offsetHeight;
-                const sectionTop = section.offsetTop - 100;
-                const sectionId = section.getAttribute('id');
-                
-                if (scrollY > sectionTop && scrollY <= sectionTop + sectionHeight) {
-                    navLinks.forEach(link => {
-                        link.classList.remove('active');
-                        if (link.getAttribute('href') === `#${sectionId}`) {
-                            link.classList.add('active');
-                        }
-                    });
-                }
-            });
-        }
-        
-        window.addEventListener('scroll', activeNavLink);
-        
-        // ========================================
-        // SMOOTH SCROLL
-        // ========================================
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
-        
-        // ========================================
-        // REVEAL ANIMATIONS
-        // ========================================
-        const revealElements = document.querySelectorAll('.reveal');
-        
-        const revealObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('active');
-                }
-            });
-        }, {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        });
-        
-        revealElements.forEach(element => {
-            revealObserver.observe(element);
-        });
-        
-        // ========================================
-        // STATS COUNTER
-        // ========================================
-        const statNumbers = document.querySelectorAll('.stat-number');
-        let counterAnimated = false;
-        
-        const statsObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting && !counterAnimated) {
-                    counterAnimated = true;
-                    animateCounters();
-                }
-            });
-        }, { threshold: 0.5 });
-        
-        const statsSection = document.querySelector('.stats');
-        if (statsSection) {
-            statsObserver.observe(statsSection);
-        }
-        
-        function animateCounters() {
-            statNumbers.forEach(stat => {
-                const target = parseFloat(stat.getAttribute('data-target'));
-                const duration = 2000;
-                const increment = target / (duration / 16);
-                let current = 0;
-                
-                const timer = setInterval(() => {
-                    current += increment;
-                    if (current >= target) {
-                        stat.textContent = target % 1 === 0 ? target.toLocaleString() : target.toFixed(1);
-                        clearInterval(timer);
-                    } else {
-                        stat.textContent = current % 1 === 0 ? Math.floor(current).toLocaleString() : current.toFixed(1);
-                    }
+    });
+
+    // Reveal
+    const revealObs = new IntersectionObserver(entries =>
+        entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); }),
+        { threshold:0.08, rootMargin:'0px 0px -40px 0px' });
+    document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+
+    // Photo strip parallax trigger
+    const stripObs = new IntersectionObserver(entries =>
+        entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in-view'); }),
+        { threshold:0.2 });
+    const strip = document.getElementById('photoStrip');
+    if (strip) stripObs.observe(strip);
+
+    // Stats counter
+    let counted = false;
+    const statsObs = new IntersectionObserver(entries => {
+        if (entries[0].isIntersecting && !counted) {
+            counted = true;
+            document.querySelectorAll('.stat-num[data-target]').forEach(el => {
+                const target = parseFloat(el.dataset.target), step = target / (2000/16);
+                let cur = 0;
+                const t = setInterval(() => {
+                    cur += step;
+                    if (cur >= target) { el.textContent = target%1===0 ? target.toLocaleString() : target.toFixed(1); clearInterval(t); }
+                    else el.textContent = cur%1===0 ? Math.floor(cur).toLocaleString() : cur.toFixed(1);
                 }, 16);
             });
         }
-        
-        // ========================================
-        // MENU FILTERING
-        // ========================================
-        const filterBtns = document.querySelectorAll('.filter-btn');
-        const menuItems = document.querySelectorAll('.menu-item');
-        
-        filterBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                filterBtns.forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                
-                const filter = btn.getAttribute('data-filter');
-                
-                menuItems.forEach(item => {
-                    const category = item.getAttribute('data-category');
-                    
-                    if (filter === 'all' || category === filter) {
-                        item.style.display = 'block';
-                        setTimeout(() => {
-                            item.style.opacity = '1';
-                            item.style.transform = 'scale(1)';
-                        }, 10);
-                    } else {
-                        item.style.opacity = '0';
-                        item.style.transform = 'scale(0.8)';
-                        setTimeout(() => {
-                            item.style.display = 'none';
-                        }, 300);
-                    }
-                });
-            });
-        });
-        
-        // ========================================
-        // TESTIMONIALS SLIDER
-        // ========================================
-        const testimonialCards = document.querySelectorAll('.testimonial-card');
-        const navDots = document.querySelectorAll('.nav-dot');
-        let currentSlide = 0;
-        
-        function showSlide(index) {
-            testimonialCards.forEach(card => card.classList.remove('active'));
-            navDots.forEach(dot => dot.classList.remove('active'));
-            
-            testimonialCards[index].classList.add('active');
-            navDots[index].classList.add('active');
-        }
-        
-        navDots.forEach((dot, index) => {
-            dot.addEventListener('click', () => {
-                currentSlide = index;
-                showSlide(currentSlide);
-            });
-        });
-        
-        // Auto-slide
-        setInterval(() => {
-            currentSlide = (currentSlide + 1) % testimonialCards.length;
-            showSlide(currentSlide);
-        }, 5000);
-        
-        // ========================================
-        // CONTACT FORM
-        // ========================================
-        const contactForm = document.getElementById('contactForm');
-        
-        contactForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            
-            const name = document.getElementById('name').value;
-            const email = document.getElementById('email').value;
-            const phone = document.getElementById('phone').value;
-            const message = document.getElementById('message').value;
-            
-            // WhatsApp integration
-            const whatsappMessage = `Hello Krema!%0A%0AName: ${name}%0AEmail: ${email}%0APhone: ${phone}%0A%0AMessage: ${message}`;
-            const whatsappURL = `https://wa.me/1234567890?text=${whatsappMessage}`;
-            
-            window.open(whatsappURL, '_blank');
-            contactForm.reset();
-            alert('Thank you! Opening WhatsApp to send your message...');
-        });
-        
-        // ========================================
-        // SCROLL TO TOP
-        // ========================================
-        const scrollTopBtn = document.getElementById('scrollTop');
-        
-        window.addEventListener('scroll', () => {
-            if (window.pageYOffset > 300) {
-                scrollTopBtn.classList.add('visible');
-            } else {
-                scrollTopBtn.classList.remove('visible');
-            }
-        });
-        
-        scrollTopBtn.addEventListener('click', () => {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
-        });
-    </script>
+    }, { threshold:0.5 });
+    const statsEl = document.querySelector('.stats');
+    if (statsEl) statsObs.observe(statsEl);
+
+    // Menu tabs
+    document.querySelectorAll('.tab').forEach(tab => tab.addEventListener('click', () => {
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.menu-list').forEach(l => l.classList.remove('active'));
+        tab.classList.add('active');
+        document.getElementById('tab-' + tab.dataset.tab).classList.add('active');
+    }));
+
+    // Testimonial slider
+    const tBlocks = document.querySelectorAll('.t-block');
+    const tDots   = document.querySelectorAll('.t-dot');
+    let tCur = 0;
+    function showT(i) {
+        tBlocks.forEach(b => b.classList.remove('active'));
+        tDots.forEach(d => d.classList.remove('active'));
+        tBlocks[i].classList.add('active');
+        tDots[i].classList.add('active');
+        tCur = i;
+    }
+    tDots.forEach(d => d.addEventListener('click', () => showT(parseInt(d.dataset.slide))));
+    setInterval(() => showT((tCur + 1) % tBlocks.length), 5500);
+
+    // Contact → WhatsApp
+    document.getElementById('contactForm').addEventListener('submit', e => {
+        e.preventDefault();
+        const n=document.getElementById('name').value, em=document.getElementById('email').value,
+              ph=document.getElementById('phone').value, msg=document.getElementById('message').value;
+        window.open(`https://wa.me/1234567890?text=Hello krema!%0A%0AName: ${n}%0AEmail: ${em}%0APhone: ${ph}%0A%0AMessage: ${msg}`, '_blank');
+        e.target.reset();
+    });
+</script>
 </body>
 </html>
